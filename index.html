@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="The Dental Home offers expert general, cosmetic, and pediatric dentistry. Book a secure appointment with Dr. Sukhwant Yadav and Dr. Sushma Chaurasiya today.">
+  <meta property="og:title" content="The Dental Home — Expert Dentistry">
+  <meta property="og:description"
+    content="Providing premium, painless dental care in a state-of-the-art clinic. Book your visit today.">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://www.thedentalhome.example.com/">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="preconnect" href="https://router.project-osrm.org">
+  <title>The Dental Home — Dr.Sukhwant Yadav &amp; Dr. Sushma Chaurasiya</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script>
+</head>
+
+<body>
+
+  <header id="site-header">
+    <div class="nav-inner">
+      <div class="logo">
+        <svg class="logo-mark" viewBox="0 0 32 32" fill="none">
+          <defs>
+            <mask id="cutout-header">
+              <rect width="32" height="32" fill="white" />
+              <path d="M -2 21 L 16 9 L 34 21" fill="none" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M 23 13.5 L 23 4 L 27 4 L 27 16.2 M 23 7 L 27 7 M 23 10 L 27 10" fill="none" stroke="black" stroke-width="1.5" stroke-linejoin="round" />
+            </mask>
+          </defs>
+          <path mask="url(#cutout-header)" fill="#C96A4A" d="M 16 3 C 8 -2, 1 2, 3 13 C 4 21, 1 26, 0 30 C 5 30, 9 26, 12 21 C 14 17, 18 17, 20 21 C 23 26, 27 30, 32 30 C 31 26, 28 21, 29 13 C 31 2, 24 -2, 16 3 Z" />
+        </svg>
+        The Dental Home
+      </div>
+      <nav class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#team">Our Doctors</a>
+        <a href="#locations">Visit Us</a>
+        <a href="#stories">Stories</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav-right">
+        <button class="loc-pill" id="header-loc-pill" aria-live="polite"><span class="loc-dot"
+            id="header-dot"></span><span id="header-loc-name">The Dental Home</span></button>
+        <a href="#book" class="btn btn-primary">Book appointment</a>
+        <button class="burger" aria-label="Open menu">
+          <svg width="22" height="22" viewBox="0 0 22 22">
+            <path d="M3 6h16M3 11h16M3 16h16" stroke="#2E2E2E" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <video id="hero-video" preload="auto" autoplay muted loop playsinline>
+      <source src="create_a_background_video_for.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="watermark-cover" id="teeth-scene">
+      <div class="scene">
+        <svg id="teeth-svg" viewBox="0 0 680 320" style="position:absolute; top:0; left:0; width:100%; height:100%;"
+          role="img">
+          <title>Interactive teeth brushing animation</title>
+          <desc>A smiling mouth with anatomically shaped teeth. Hover over teeth to see their names, click to make them
+            sparkle, or drag the toothbrush to brush manually.</desc>
+          <defs>
+            <clipPath id="mouthClip">
+              <rect x="40" y="20" width="600" height="280" rx="50" />
+            </clipPath>
+            <!-- Gum gradients -->
+            <linearGradient id="gumTop" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#D4647A" />
+              <stop offset="40%" stop-color="#E8899A" />
+              <stop offset="100%" stop-color="#F2B0BC" />
+            </linearGradient>
+            <linearGradient id="gumBot" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#D4647A" />
+              <stop offset="40%" stop-color="#E8899A" />
+              <stop offset="100%" stop-color="#F2B0BC" />
+            </linearGradient>
+            <!-- Tooth gradient -->
+            <linearGradient id="toothFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FFFFFF" />
+              <stop offset="50%" stop-color="#FAFAFA" />
+              <stop offset="100%" stop-color="#F0EDE8" />
+            </linearGradient>
+            <!-- Tooth hover glow gradient -->
+            <linearGradient id="toothGlow" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FFFFFF" />
+              <stop offset="50%" stop-color="#FFFFFF" />
+              <stop offset="100%" stop-color="#FFF8F0" />
+            </linearGradient>
+            <!-- Gleam sweep -->
+            <linearGradient id="gleam" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="rgba(255,255,255,0)" />
+              <stop offset="40%" stop-color="rgba(255,255,255,0.55)" />
+              <stop offset="60%" stop-color="rgba(255,255,255,0.55)" />
+              <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+            </linearGradient>
+            <!-- Tongue gradient -->
+            <radialGradient id="tongue" cx="50%" cy="30%" r="60%">
+              <stop offset="0%" stop-color="#E86B7A" />
+              <stop offset="100%" stop-color="#C94F5F" />
+            </radialGradient>
+            <filter id="toothShadow" x="-4%" y="-4%" width="108%" height="112%">
+              <feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-color="#B0A090" flood-opacity="0.18" />
+            </filter>
+            <filter id="toothHoverGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#FFD700" flood-opacity="0.5" />
+            </filter>
+          </defs>
+
+          <!-- Mouth background -->
+          <rect x="40" y="20" width="600" height="280" rx="50" fill="#8B2035" />
+
+          <g clip-path="url(#mouthClip)">
+            <!-- Tongue -->
+            <ellipse cx="340" cy="185" rx="180" ry="65" fill="url(#tongue)" opacity="0.7" />
+
+            <!-- Upper gum tissue -->
+            <path
+              d="M40,20 L640,20 L640,120 Q590,135 540,128 Q490,122 440,130 Q390,138 340,130 Q290,122 240,130 Q190,138 140,128 Q90,120 40,130 Z"
+              fill="url(#gumTop)" />
+
+            <!-- Upper teeth — interactive -->
+            <g class="teeth-group" filter="url(#toothShadow)">
+              <path class="tooth" data-tooth="Upper Left Molar"
+                d="M72,72 Q72,58 78,50 Q84,42 92,42 Q100,42 106,50 Q112,58 112,72 L112,120 Q92,126 72,120 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Upper Left Premolar"
+                d="M120,66 Q120,50 127,43 Q134,36 141,36 Q148,36 155,43 Q162,50 162,66 L162,118 Q141,124 120,118 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Upper Left Canine"
+                d="M172,60 Q172,42 180,32 Q185,26 190,26 Q195,26 200,32 Q208,42 208,60 L208,116 Q190,122 172,116 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Upper Left Lateral Incisor"
+                d="M218,64 Q218,46 226,38 Q232,32 238,32 Q244,32 250,38 Q258,46 258,64 L258,116 Q238,122 218,116 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Upper Left Central Incisor"
+                d="M268,60 Q268,40 278,32 Q286,26 296,26 Q306,26 314,32 Q324,40 324,60 L324,118 Q296,124 268,118 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Upper Right Central Incisor"
+                d="M334,60 Q334,40 344,32 Q352,26 362,26 Q372,26 380,32 Q390,40 390,60 L390,118 Q362,124 334,118 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Upper Right Lateral Incisor"
+                d="M400,64 Q400,46 408,38 Q414,32 420,32 Q426,32 432,38 Q440,46 440,64 L440,116 Q420,122 400,116 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Upper Right Canine"
+                d="M450,60 Q450,42 458,32 Q463,26 468,26 Q473,26 478,32 Q486,42 486,60 L486,116 Q468,122 450,116 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Upper Right Premolar"
+                d="M496,66 Q496,50 503,43 Q510,36 517,36 Q524,36 531,43 Q538,50 538,66 L538,118 Q517,124 496,118 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Upper Right Molar"
+                d="M548,72 Q548,58 554,50 Q560,42 568,42 Q576,42 582,50 Q588,58 588,72 L588,120 Q568,126 548,120 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+            </g>
+
+            <!-- Lower gum tissue -->
+            <path
+              d="M40,300 L640,300 L640,195 Q590,182 540,190 Q490,198 440,188 Q390,178 340,188 Q290,198 240,188 Q190,178 140,190 Q90,200 40,188 Z"
+              fill="url(#gumBot)" />
+
+            <!-- Lower teeth — interactive -->
+            <g class="teeth-group" filter="url(#toothShadow)">
+              <path class="tooth" data-tooth="Lower Left Molar"
+                d="M72,248 Q72,262 78,270 Q84,278 92,278 Q100,278 106,270 Q112,262 112,248 L112,198 Q92,192 72,198 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Lower Left Premolar"
+                d="M120,252 Q120,268 127,275 Q134,282 141,282 Q148,282 155,275 Q162,268 162,252 L162,200 Q141,194 120,200 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Lower Left Canine"
+                d="M172,258 Q172,276 180,286 Q185,292 190,292 Q195,292 200,286 Q208,276 208,258 L208,202 Q190,196 172,202 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Lower Left Lateral Incisor"
+                d="M220,256 Q220,272 227,280 Q232,286 237,286 Q242,286 247,280 Q254,272 254,256 L254,202 Q237,196 220,202 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Lower Left Central Incisor"
+                d="M264,254 Q264,272 273,280 Q280,286 288,286 Q296,286 303,280 Q312,272 312,254 L312,200 Q288,194 264,200 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Lower Right Central Incisor"
+                d="M322,254 Q322,272 331,280 Q338,286 346,286 Q354,286 361,280 Q370,272 370,254 L370,200 Q346,194 322,200 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Lower Right Lateral Incisor"
+                d="M382,256 Q382,272 389,280 Q394,286 399,286 Q404,286 409,280 Q416,272 416,256 L416,202 Q399,196 382,202 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Lower Right Canine"
+                d="M428,258 Q428,276 436,286 Q441,292 446,292 Q451,292 456,286 Q464,276 464,258 L464,202 Q446,196 428,202 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Lower Right Premolar"
+                d="M476,252 Q476,268 483,275 Q490,282 497,282 Q504,282 511,275 Q518,268 518,252 L518,200 Q497,194 476,200 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+              <path class="tooth" data-tooth="Lower Right Molar"
+                d="M528,248 Q528,262 534,270 Q540,278 548,278 Q556,278 562,270 Q568,262 568,248 L568,198 Q548,192 528,198 Z"
+                fill="url(#toothFill)" stroke="#E0DBD4" stroke-width="0.8" />
+            </g>
+
+            <!-- Gleam sweep -->
+            <rect class="gleam-bar" x="-100" y="30" width="80" height="95" fill="url(#gleam)" opacity="0.6" />
+
+            <!-- Foam bubbles -->
+            <circle class="foam f1" cx="160" cy="110" r="4" fill="#fff" opacity="0" />
+            <circle class="foam f2" cx="280" cy="105" r="3" fill="#fff" opacity="0" />
+            <circle class="foam f3" cx="400" cy="112" r="3.5" fill="#fff" opacity="0" />
+            <circle class="foam f4" cx="520" cy="108" r="3" fill="#fff" opacity="0" />
+            <circle class="foam f5" cx="220" cy="200" r="3.5" fill="#fff" opacity="0" />
+            <circle class="foam f6" cx="360" cy="195" r="4" fill="#fff" opacity="0" />
+            <circle class="foam f7" cx="480" cy="202" r="3" fill="#fff" opacity="0" />
+
+            <!-- Click sparkle burst container -->
+            <g id="click-sparkles"></g>
+          </g>
+        </svg>
+
+        <!-- Toothbrush (draggable) -->
+        <div class="brush" id="toothbrush">
+          <div class="handle">
+            <div class="handle-grip"></div>
+          </div>
+          <div class="bristle-wrap">
+            <div class="bristles">
+              <div class="bristle-row"></div>
+              <div class="bristle-row"></div>
+              <div class="bristle-row"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sparkles -->
+        <span class="sparkle sp1"></span>
+        <span class="sparkle sp2"></span>
+        <span class="sparkle sp3"></span>
+        <span class="sparkle sp4"></span>
+        <span class="sparkle sp5"></span>
+        <span class="sparkle sp6"></span>
+
+        <!-- Tooth name tooltip -->
+        <div class="tooth-tooltip" id="tooth-tooltip"></div>
+
+        <!-- Drag hint -->
+        <div class="drag-hint" id="drag-hint">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 2v8M12 2l-3 3M12 2l3 3M12 22v-8M12 22l-3-3M12 22l3-3M2 12h8M2 12l3-3M2 12l3 3M22 12h-8M22 12l-3-3M22 12l3 3"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Drag to brush!
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="hero-content">
+        <div class="eyebrow">Excellence in Dental Care</div>
+        <h1>Modern dentistry with a personal touch.</h1>
+        <p class="lede" style="margin-top:20px;">Expert care by Sukhwant Yadav and Dr. Sushma Chaurasiya. We combine
+          advanced technology with a gentle approach to ensure your long-term oral health.</p>
+        <div class="hero-actions">
+          <a href="#book" class="btn btn-primary">Book a visit</a>
+          <a href="#services" class="btn btn-ghost">See services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="trust">
+    <div class="wrap">
+      <div class="trust-track" id="trust-track">
+        <span class="trust-item">General Dentistry</span>
+        <span class="trust-item">Root Canal Treatment</span>
+        <span class="trust-item">Dental Implants</span>
+        <span class="trust-item">Orthodontics</span>
+        <span class="trust-item">Cosmetic Dentistry</span>
+        <span class="trust-item">Crowns &amp; Bridges</span>
+        <span class="trust-item">Oral Surgery</span>
+        <span class="trust-item">Periodontics</span>
+        <span class="trust-item">Pediatric Dentistry</span>
+        <span class="trust-item">Emergency Dental Care</span>
+        <span class="trust-item">General Dentistry</span>
+        <span class="trust-item">Root Canal Treatment</span>
+        <span class="trust-item">Dental Implants</span>
+        <span class="trust-item">Orthodontics</span>
+        <span class="trust-item">Cosmetic Dentistry</span>
+        <span class="trust-item">Crowns &amp; Bridges</span>
+        <span class="trust-item">Oral Surgery</span>
+        <span class="trust-item">Periodontics</span>
+        <span class="trust-item">Pediatric Dentistry</span>
+        <span class="trust-item">Emergency Dental Care</span>
+      </div>
+    </div>
+  </div>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">Our services</div>
+          <h2>Complete dental care under one roof</h2>
+        </div>
+        <p class="lede">From routine cleanings to advanced cosmetic work, we keep your smile healthy at every stage.</p>
+      </div>
+      <div class="svc-grid reveal">
+        <div class="svc-card">
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
+            <path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+          <h3>General &amp; Preventive Dentistry</h3>
+          <p class="desc">Routine checkups, cleanings, scaling, polishing and preventive care to maintain your oral
+            health.</p>
+        </div>
+        <div class="svc-card">
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.6" />
+            <path d="M8 12l3 3 5-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <h3>Restorative Dentistry &amp; Fillings</h3>
+          <p class="desc">Tooth-coloured composite fillings and restorations to repair cavities and damaged teeth.</p>
+        </div>
+        <div class="svc-card">
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
+            <path d="M6 4v16M18 4v16M6 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+          <h3>Root Canal Treatment</h3>
+          <p class="desc">Painless endodontic treatment using latest rotary technology to save infected teeth.</p>
+        </div>
+        <div class="svc-card">
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3l2.5 6H21l-5 4 2 6.5L12 16l-6 3.5 2-6.5-5-4h6.5z" stroke="currentColor" stroke-width="1.6"
+              stroke-linejoin="round" />
+          </svg>
+          <h3>Cosmetic Dentistry &amp; Smile Makeover</h3>
+          <p class="desc">Veneers, teeth whitening, bonding and complete smile design for a stunning transformation.</p>
+        </div>
+        <div class="svc-card">
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3v6l4 4-4 4v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <h3>Orthodontics (Braces &amp; Aligners)</h3>
+          <p class="desc">Metal braces, ceramic braces and clear aligners for perfectly aligned teeth at any age.</p>
+        </div>
+        <div class="svc-card">
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 4c-2.5 0-4.5 1.5-4.5 4.5 0 2 .7 3.5.7 6 0 2 1 3.3 2 3.3s1.3-1.7 1.3-3.3.3-2.7.5-2.7.5 1 .5 2.7.3 3.3 1.3 3.3 2-1.3 2-3.3c0-2.5.7-4 .7-6C16.5 5.5 14.5 4 12 4z"
+              stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+          </svg>
+          <h3>Dental Implants</h3>
+          <p class="desc">Permanent titanium implants to replace missing teeth — look, feel and function like natural
+            teeth.</p>
+        </div>
+        <div class="svc-card">
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="8" width="18" height="8" rx="3" stroke="currentColor" stroke-width="1.6" />
+            <path d="M8 8v8M16 8v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+          <h3>Crowns, Bridges &amp; Dentures</h3>
+          <p class="desc">Custom prosthodontic solutions — ceramic crowns, fixed bridges and comfortable dentures.</p>
+        </div>
+        <div class="svc-card">
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
+            <path d="M8 4l4 4 4-4M4 12h16M8 20l4-4 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <h3>Oral Surgery</h3>
+          <p class="desc">Wisdom tooth extraction, surgical removal of impacted teeth and minor oral surgical
+            procedures.</p>
+        </div>
+        <div class="svc-card">
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
+            <path d="M12 22c-4 0-8-3-8-8V6h16v8c0 5-4 8-8 8z" stroke="currentColor" stroke-width="1.6"
+              stroke-linejoin="round" />
+            <path d="M4 10h16" stroke="currentColor" stroke-width="1.6" />
+          </svg>
+          <h3>Periodontics (Gum Care)</h3>
+          <p class="desc">Deep cleaning, gum disease treatment, flap surgery and comprehensive periodontal care.</p>
+        </div>
+        <div class="svc-card">
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" />
+            <path d="M12 8v4l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <h3>Dental Diagnostics &amp; Advanced Technology</h3>
+          <p class="desc">Digital X-rays, RVG, OPG and intraoral cameras for precise diagnosis and treatment planning.
+          </p>
+        </div>
+        <div class="svc-card">
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.6" />
+            <path d="M5.5 21v-2a4.5 4.5 0 0 1 4.5-4.5h4a4.5 4.5 0 0 1 4.5 4.5v2" stroke="currentColor"
+              stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <h3>Pediatric Dentistry</h3>
+          <p class="desc">Gentle, fear-free treatments tailored for children to build healthy dental habits early on.
+          </p>
+        </div>
+        <div class="svc-card">
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
+            <path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <h3>Emergency Dental Care</h3>
+          <p class="desc">Immediate attention and pain relief for severe toothaches, trauma, or broken teeth.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="team">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">Meet our doctors</div>
+          <h2>Experienced dentists who truly care</h2>
+        </div>
+        <p class="lede">Both doctors are here every day, so you always see a familiar face.</p>
+      </div>
+      <div class="team-grid reveal">
+        <div class="doctor-card" data-doctor="yadav" role="button" tabindex="0" aria-haspopup="dialog">
+          <div class="doctor-avatar avatar-downtown">SY</div>
+          <p class="doctor-name">Dr. Sukhwant Yadav</p>
+          <p class="doctor-role">General &amp; cosmetic dentistry</p>
+          <span class="doctor-clinic-tag tag-downtown"><span
+              style="width:6px;height:6px;border-radius:50%;background:var(--rust-deep);display:inline-block;"></span>The
+            Dental Home</span>
+          <div class="doctor-quals">
+            <span class="qual-pill">BDS, MDS</span>
+            <span class="qual-pill">Cosmetic dentistry</span>
+            <span class="qual-pill">Implantologist</span>
+          </div>
+          <p class="doctor-hint"><svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+              <path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>View full credentials</p>
+        </div>
+        <div class="doctor-card" data-doctor="chaurasiya" role="button" tabindex="0" aria-haspopup="dialog">
+          <div class="doctor-avatar avatar-riverside">SC</div>
+          <p class="doctor-name">Dr. Sushma Chaurasiya</p>
+          <p class="doctor-role">Orthodontics &amp; pediatric dentistry</p>
+          <span class="doctor-clinic-tag tag-downtown"><span
+              style="width:6px;height:6px;border-radius:50%;background:var(--rust-deep);display:inline-block;"></span>The
+            Dental Home</span>
+          <div class="doctor-quals">
+            <span class="qual-pill">BDS, MDS</span>
+            <span class="qual-pill">Orthodontist</span>
+            <span class="qual-pill">Pediatric specialist</span>
+          </div>
+          <p class="doctor-hint"><svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+              <path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>View full credentials</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal-overlay" id="doctor-modal" role="dialog" aria-modal="true" aria-labelledby="modal-doc-name">
+    <div class="modal-panel">
+      <button class="modal-close" id="modal-close" aria-label="Close">
+        <svg width="15" height="15" viewBox="0 0 15 15">
+          <path d="M1 1l13 13M14 1L1 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+      </button>
+      <div class="modal-head">
+        <div class="modal-avatar" id="modal-avatar"></div>
+        <div>
+          <p class="doctor-name" id="modal-doc-name"></p>
+          <p class="doctor-role" id="modal-doc-role"></p>
+          <span class="doctor-clinic-tag" id="modal-doc-tag"></span>
+        </div>
+      </div>
+      <p class="modal-bio" id="modal-bio"></p>
+      <p class="modal-section-label">Credentials</p>
+      <ul class="modal-qual-list" id="modal-qual-list"></ul>
+    </div>
+  </div>
+
+  <section id="locations"
+    style="background:var(--ivory-deep); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">Visit us</div>
+          <h2>Our clinic</h2>
+        </div>
+        <p class="lede">A clean, modern space designed to make your visit comfortable.</p>
+      </div>
+
+      <div class="loc-tabs reveal" style="display:flex; justify-content:center; gap:8px; margin-bottom: 24px;">
+        <button class="btn btn-primary clinic-tab active" data-target="delhi">Chittaranjan Park, Delhi</button>
+        <button class="btn btn-ghost clinic-tab" data-target="faridabad">Sector 85, Faridabad</button>
+      </div>
+
+      <div class="loc-panel active reveal" id="panel-clinic" data-clinic="clinic">
+
+        <!-- Delhi Clinic -->
+        <div class="loc-info" id="info-delhi" data-lat="28.5396" data-lng="77.2477" data-name="The Dental Home - Delhi">
+          <span class="loc-badge badge-open">Open now — closes 8pm</span>
+          <div class="loc-row">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z" stroke="currentColor" stroke-width="1.5" />
+              <circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+            <div>
+              <div class="label">Address</div>
+              <div class="value" style="font-size:13.5px; line-height:1.4;">G-1422 (also listed as D-768, Lower Ground
+                Floor, near Mela Ground),<br>Market No. 2, Chittaranjan Park, New Delhi, 110019</div>
+            </div>
+          </div>
+          <div class="loc-row">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+              <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+            <div>
+              <div class="label">Hours</div>
+              <div class="value" style="font-family:var(--font-mono);">Mon–Sun, 11:00–20:00</div>
+            </div>
+          </div>
+          <div class="loc-row">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2C9.5 21 3 14.5 3 6a2 2 0 012-2z"
+                stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+            </svg>
+            <div>
+              <div class="label">Phone</div>
+              <div class="value" style="font-family:var(--font-mono);">+91 8264001306</div>
+            </div>
+          </div>
+          <div class="loc-row">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5" />
+              <path d="M4 21c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+            <div>
+              <div class="label">Doctors</div>
+              <div class="value">Dr. Sukhwant Yadav &amp; Dr. Sushma Chaurasiya</div>
+            </div>
+          </div>
+          <a href="#book" class="btn btn-primary" style="margin-top:8px; width:fit-content;">Book appointment</a>
+        </div>
+
+        <!-- Faridabad Clinic -->
+        <div class="loc-info" id="info-faridabad" style="display:none;" data-lat="28.40478" data-lng="77.35598"
+          data-name="The Dental Home - Faridabad">
+          <span class="loc-badge badge-open">Open now — closes 8pm</span>
+          <div class="loc-row">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z" stroke="currentColor" stroke-width="1.5" />
+              <circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+            <div>
+              <div class="label">Address</div>
+              <div class="value" style="font-size:13.5px; line-height:1.4;">Shop no. 36, First Floor, Amolik
+                Sankalp,<br>Sector 85, Faridabad, Haryana</div>
+            </div>
+          </div>
+          <div class="loc-row">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+              <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+            <div>
+              <div class="label">Hours</div>
+              <div class="value" style="font-family:var(--font-mono);">Mon–Sun, 11:00–20:00</div>
+            </div>
+          </div>
+          <div class="loc-row">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2C9.5 21 3 14.5 3 6a2 2 0 012-2z"
+                stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+            </svg>
+            <div>
+              <div class="label">Phone</div>
+              <div class="value" style="font-family:var(--font-mono);">+91 8264001306</div>
+            </div>
+          </div>
+          <div class="loc-row">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5" />
+              <path d="M4 21c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+            <div>
+              <div class="label">Doctors</div>
+              <div class="value">Dr. Sukhwant Yadav &amp; Dr. Sushma Chaurasiya</div>
+            </div>
+          </div>
+          <a href="#book" class="btn btn-primary" style="margin-top:8px; width:fit-content;">Book appointment</a>
+        </div>
+        <div class="loc-map">
+          <div id="leaflet-map" style="position:absolute; inset:0; width:100%; height:100%; z-index:1;"></div>
+          <div class="distance-calculator" id="dist-calc">
+            <h4>Travel distance</h4>
+            <p style="font-size:12px; color:var(--ink-mute); margin-bottom:12px; line-height:1.4;">Calculate real
+              driving, walking &amp; transit distances from your location.</p>
+            <button class="btn btn-primary" id="calc-dist-btn" style="padding:8px 14px; font-size:13px; width:100%;">Get
+              exact distance</button>
+            <div id="dist-results" style="display:none; margin-top:4px;">
+              <p style="font-size:10px; color:var(--ink-mute); margin-bottom:8px; font-family:var(--font-mono);">Click a
+                mode to view its route on the map</p>
+              <div class="dist-row dist-clickable active" data-mode="driving"><span>🚗 Driving</span>
+                <div class="dist-detail"><strong id="dist-car">...</strong><small id="dist-car-speed"
+                    class="dist-speed"></small></div>
+              </div>
+              <div class="dist-row dist-clickable" data-mode="walking"><span>🚶 Walking</span>
+                <div class="dist-detail"><strong id="dist-walk">...</strong><small id="dist-walk-speed"
+                    class="dist-speed"></small></div>
+              </div>
+              <div class="dist-row dist-clickable" data-mode="bus"><span>🚌 Bus</span>
+                <div class="dist-detail"><strong id="dist-bus">...</strong><small id="dist-bus-speed"
+                    class="dist-speed"></small></div>
+              </div>
+              <div class="dist-row dist-clickable" data-mode="metro"><span>🚇 Metro</span>
+                <div class="dist-detail"><strong id="dist-metro">...</strong><small id="dist-metro-speed"
+                    class="dist-speed"></small></div>
+              </div>
+              <div id="dist-straight"
+                style="font-size:10.5px; color:var(--ink-mute); margin-top:10px; font-family:var(--font-mono);"></div>
+              <button class="btn btn-ghost" id="dist-recalc-btn"
+                style="padding:6px 12px; font-size:11.5px; width:100%; margin-top:10px; display:none;">↻
+                Recalculate</button>
+              <p id="dist-error" style="color:var(--coral-deep); font-size:12px; margin-top:12px; display:none;"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stories">
+    <div class="wrap">
+      <div class="section-head reveal"
+        style="justify-content:center; text-align:center; flex-direction:column; align-items:center;">
+        <div class="eyebrow">Patient stories</div>
+        <h2>What our patients say</h2>
+      </div>
+      <div class="t-wrap reveal">
+        <div class="t-slide active">
+          <p class="t-quote">"The clinic feels so clean and welcoming. My kids actually look forward to their dental
+            visits now."</p>
+          <p class="t-name">Priya M. — Patient since 2022</p>
+        </div>
+        <div class="t-slide">
+          <p class="t-quote">"Dr. Yadav explained everything on the screen before starting. I've never felt so
+            comfortable at a dentist."</p>
+          <p class="t-name">Rahul K. — Patient since 2021</p>
+        </div>
+        <div class="t-slide">
+          <p class="t-quote">"Got my braces done by Dr. Sushma. The results are amazing and the whole process was
+            painless."</p>
+          <p class="t-name">Neha S. — Patient since 2023</p>
+        </div>
+        <div class="t-controls">
+          <button class="t-dot active" data-i="0" aria-label="Story 1"></button>
+          <button class="t-dot" data-i="1" aria-label="Story 2"></button>
+          <button class="t-dot" data-i="2" aria-label="Story 3"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq"
+    style="background:var(--ivory-deep); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+    <div class="wrap">
+      <div class="section-head reveal"
+        style="justify-content:center; text-align:center; flex-direction:column; align-items:center;">
+        <div class="eyebrow">Before you visit</div>
+        <h2>Common questions</h2>
+      </div>
+      <div class="faq reveal">
+        <div class="faq-item open">
+          <button class="faq-q"><span>Do you accept insurance?</span><span class="plus"></span></button>
+          <div class="faq-a" style="max-height:100px;">
+            <p>Yes, we accept all major insurance plans and cashless treatment through most TPA networks. Call us to
+              confirm your plan before your visit.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>Is the root canal treatment painful?</span><span class="plus"></span></button>
+          <div class="faq-a">
+            <p>Not at all. We use modern anaesthesia and advanced rotary instruments that make root canal treatment
+              virtually painless. Most patients are surprised at how comfortable it is.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>Do you treat children?</span><span class="plus"></span></button>
+          <div class="faq-a">
+            <p>Absolutely! Dr. Sushma specialises in pediatric dentistry. We have a kid-friendly environment and take
+              extra care to make first visits fun and stress-free.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>What are your timings?</span><span class="plus"></span></button>
+          <div class="faq-a">
+            <p>We're open Monday to Saturday, 10 AM to 8 PM. For emergencies, you can call us anytime and we'll try to
+              accommodate you as soon as possible.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="book">
+    <div class="wrap">
+      <div class="book-container reveal">
+        <div>
+          <div class="eyebrow">Schedule your visit</div>
+          <h2 style="margin-bottom:16px;">Book an appointment.</h2>
+          <p class="lede" style="margin-bottom:24px; font-size:16px; max-width:32ch;">Schedule your visit today. Fill
+            out the form, call us, or message us on WhatsApp.</p>
+
+          <div style="display:flex; flex-direction:column; gap:12px; max-width:280px;">
+            <a href="https://wa.me/918264001306?text=Hi%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20The%20Dental%20Home."
+              target="_blank" rel="noopener" class="btn btn-whatsapp" id="btn-whatsapp">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+              </svg>
+              WhatsApp Us
+            </a>
+            <a href="tel:+918264001306" class="btn btn-call" id="btn-call">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" width="20" height="20">
+                <path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2C9.5 21 3 14.5 3 6a2 2 0 012-2z" />
+              </svg>
+              Call Us Now
+            </a>
+          </div>
+
+          <p style="font-size:11px; color:var(--ink-mute); margin-top:14px; font-family:var(--font-mono);">Available
+            Mon–Sun · 11 AM – 8 PM</p>
+        </div>
+        <div class="book-form-card">
+          <form id="appointment-form">
+            <!-- honeypot for spam protection -->
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+            <div class="form-grid">
+              <div class="input-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" required placeholder="Enter your name">
+              </div>
+              <div class="input-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" required placeholder="+91 9994455723">
+              </div>
+            </div>
+            <div class="form-grid" style="margin-top:16px;">
+              <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="user@example.com">
+              </div>
+              <div class="input-group">
+                <label for="clinic">Select Clinic *</label>
+                <select id="clinic" required>
+                  <option value="" disabled selected>Choose a location...</option>
+                  <option value="delhi">Chittaranjan Park, Delhi</option>
+                  <option value="faridabad">Sector 85, Faridabad</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-grid" style="margin-top:16px;">
+              <div class="input-group">
+                <label for="date">Preferred Date *</label>
+                <input type="date" id="date" required>
+              </div>
+              <div class="input-group">
+                <label for="service">Service Needed</label>
+                <select id="service">
+                  <option value="general">General & Preventive Dentistry</option>
+                  <option value="restorative">Restorative Dentistry & Fillings</option>
+                  <option value="root-canal">Root Canal Treatment</option>
+                  <option value="cosmetic">Cosmetic Dentistry & Smile Makeover</option>
+                  <option value="orthodontics">Orthodontics (Braces & Aligners)</option>
+                  <option value="implants">Dental Implants</option>
+                  <option value="prosthodontics">Crowns, Bridges & Dentures</option>
+                  <option value="surgery">Oral Surgery</option>
+                  <option value="periodontics">Periodontics (Gum Care)</option>
+                  <option value="diagnostics">Dental Diagnostics & Advanced Technology</option>
+                  <option value="pediatric">Pediatric Dentistry</option>
+                  <option value="emergency">Emergency Dental Care</option>
+                </select>
+              </div>
+            </div>
+            <div class="input-group" style="margin-top:16px;">
+              <label for="notes">Additional Notes</label>
+              <textarea id="notes" rows="3" placeholder="Any specific concerns or medical history..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary"
+              style="width:100%; margin-top:24px; display:flex; justify-content:center; padding:14px;">
+              Submit
+            </button>
+            <div id="form-status"
+              style="display:none; text-align:center; margin-top:16px; font-size:13.5px; font-weight:500;"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-col">
+          <div class="logo" style="margin-bottom:12px;">
+            <svg class="logo-mark" viewBox="0 0 32 32" fill="none" style="width:24px;height:24px;">
+              <defs>
+                <mask id="cutout-footer">
+                  <rect width="32" height="32" fill="white" />
+                  <path d="M -2 21 L 16 9 L 34 21" fill="none" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M 23 13.5 L 23 4 L 27 4 L 27 16.2 M 23 7 L 27 7 M 23 10 L 27 10" fill="none" stroke="black" stroke-width="1.5" stroke-linejoin="round" />
+                </mask>
+              </defs>
+              <path mask="url(#cutout-footer)" fill="#C96A4A" d="M 16 3 C 8 -2, 1 2, 3 13 C 4 21, 1 26, 0 30 C 5 30, 9 26, 12 21 C 14 17, 18 17, 20 21 C 23 26, 27 30, 32 30 C 31 26, 28 21, 29 13 C 31 2, 24 -2, 16 3 Z" />
+            </svg>
+            The Dental Home
+          </div>
+          <p style="max-width:28ch;">Quality dental care in a warm, welcoming environment.</p>
+        </div>
+        <div class="foot-col">
+          <p style="color:var(--ink); font-weight:500;">Clinic</p>
+          <a href="#locations">Near Main Market</a>
+          <a href="#locations">Mon–Sat, 10am–8pm</a>
+        </div>
+        <div class="foot-col">
+          <p style="color:var(--ink); font-weight:500;">Doctors</p>
+          <p>Dr.Sukhwant Yadav</p>
+          <p>Dr. Sushma Chaurasiya</p>
+        </div>
+        <div class="foot-col">
+          <p style="color:var(--ink); font-weight:500;">Site</p>
+          <a href="#services">Services</a>
+          <a href="#stories">Stories</a>
+          <a href="#faq">FAQ</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 The Dental Home</span>
+        <span>Privacy · Terms</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="mobile-cta">
+    <a href="#book" class="btn btn-primary">Book appointment</a>
+  </div>
+
+  <script src="main.js" defer></script>
+
+</body>
+
+</html>
