@@ -13,6 +13,7 @@
   <link rel="canonical" href="https://www.thedentalhome.example.com/">
   <link rel="preconnect" href="https://tile.openstreetmap.org">
   <link rel="preconnect" href="https://router.project-osrm.org">
+  <meta name="google-maps-api-key" content="">
   <title>The Dental Home — Dr.Sukhwant Yadav &amp; Dr. Sushma Chaurasiya</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,18 +21,19 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script>
 </head>
 
 <body>
 
   <header id="site-header">
     <div class="nav-inner">
-      <div class="logo">
-        <img class="logo-mark" style="object-fit: contain; width: 30px; height: 30px;" src="logo.png" alt="The Dental Home" />
-        The Dental Home
-      </div>
+      <a href="#" style="text-decoration: none;">
+        <div class="logo">
+          <img class="logo-mark" style="object-fit: contain; width: 30px; height: 30px;" src="logo.png"
+            alt="The Dental Home" />
+          The Dental Home
+        </div>
+      </a>
       <nav class="nav-links">
         <a href="#services">Services</a>
         <a href="#team">Our Doctors</a>
@@ -266,26 +268,22 @@
   <div class="trust">
     <div class="wrap">
       <div class="trust-track" id="trust-track">
-        <span class="trust-item">General Dentistry</span>
+        <span class="trust-item">General &amp; Preventive Dentistry</span>
+        <span class="trust-item">Restorative Dentistry &amp; Fillings</span>
         <span class="trust-item">Root Canal Treatment</span>
+        <span class="trust-item">Cosmetic Dentistry &amp; Smile Makeover</span>
+        <span class="trust-item">Orthodontics (Braces &amp; Aligners)</span>
         <span class="trust-item">Dental Implants</span>
-        <span class="trust-item">Orthodontics</span>
-        <span class="trust-item">Cosmetic Dentistry</span>
-        <span class="trust-item">Crowns &amp; Bridges</span>
+        <span class="trust-item">Crowns, Bridges &amp; Dentures</span>
         <span class="trust-item">Oral Surgery</span>
-        <span class="trust-item">Periodontics</span>
-        <span class="trust-item">Pediatric Dentistry</span>
-        <span class="trust-item">Emergency Dental Care</span>
-        <span class="trust-item">General Dentistry</span>
+        <span class="trust-item">General &amp; Preventive Dentistry</span>
+        <span class="trust-item">Restorative Dentistry &amp; Fillings</span>
         <span class="trust-item">Root Canal Treatment</span>
+        <span class="trust-item">Cosmetic Dentistry &amp; Smile Makeover</span>
+        <span class="trust-item">Orthodontics (Braces &amp; Aligners)</span>
         <span class="trust-item">Dental Implants</span>
-        <span class="trust-item">Orthodontics</span>
-        <span class="trust-item">Cosmetic Dentistry</span>
-        <span class="trust-item">Crowns &amp; Bridges</span>
+        <span class="trust-item">Crowns, Bridges &amp; Dentures</span>
         <span class="trust-item">Oral Surgery</span>
-        <span class="trust-item">Periodontics</span>
-        <span class="trust-item">Pediatric Dentistry</span>
-        <span class="trust-item">Emergency Dental Care</span>
       </div>
     </div>
   </div>
@@ -295,9 +293,10 @@
       <div class="section-head reveal">
         <div>
           <div class="eyebrow">Our services</div>
-          <h2>Complete dental care under one roof</h2>
+          <h2>Complete dental care for every smile</h2>
         </div>
-        <p class="lede">From routine cleanings to advanced cosmetic work, we keep your smile healthy at every stage.</p>
+        <p class="lede">From preventive care to advanced treatment, we offer the core services your smile needs in one
+          place.</p>
       </div>
       <div class="svc-grid reveal">
         <div class="svc-card">
@@ -305,8 +304,8 @@
             <path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
           </svg>
           <h3>General &amp; Preventive Dentistry</h3>
-          <p class="desc">Routine checkups, cleanings, scaling, polishing and preventive care to maintain your oral
-            health.</p>
+          <p class="desc">Routine checkups, cleanings, scaling and preventive care to keep your teeth and gums healthy.
+          </p>
         </div>
         <div class="svc-card">
           <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
@@ -315,14 +314,15 @@
               stroke-linejoin="round" />
           </svg>
           <h3>Restorative Dentistry &amp; Fillings</h3>
-          <p class="desc">Tooth-coloured composite fillings and restorations to repair cavities and damaged teeth.</p>
+          <p class="desc">Tooth-coloured fillings and restorations that repair cavities, chips and worn teeth.</p>
         </div>
         <div class="svc-card">
           <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
             <path d="M6 4v16M18 4v16M6 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
           </svg>
           <h3>Root Canal Treatment</h3>
-          <p class="desc">Painless endodontic treatment using latest rotary technology to save infected teeth.</p>
+          <p class="desc">Gentle root canal therapy using modern rotary instruments to save infected or painful teeth.
+          </p>
         </div>
         <div class="svc-card">
           <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
@@ -330,7 +330,8 @@
               stroke-linejoin="round" />
           </svg>
           <h3>Cosmetic Dentistry &amp; Smile Makeover</h3>
-          <p class="desc">Veneers, teeth whitening, bonding and complete smile design for a stunning transformation.</p>
+          <p class="desc">Teeth whitening, veneers, bonding and smile design to create a brighter, more confident look.
+          </p>
         </div>
         <div class="svc-card">
           <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
@@ -338,7 +339,7 @@
               stroke-linejoin="round" />
           </svg>
           <h3>Orthodontics (Braces &amp; Aligners)</h3>
-          <p class="desc">Metal braces, ceramic braces and clear aligners for perfectly aligned teeth at any age.</p>
+          <p class="desc">Metal braces, ceramic braces and clear aligners for straighter teeth and a balanced bite.</p>
         </div>
         <div class="svc-card">
           <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
@@ -347,8 +348,7 @@
               stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
           </svg>
           <h3>Dental Implants</h3>
-          <p class="desc">Permanent titanium implants to replace missing teeth — look, feel and function like natural
-            teeth.</p>
+          <p class="desc">Permanent titanium implants that replace missing teeth and restore natural function.</p>
         </div>
         <div class="svc-card">
           <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
@@ -356,7 +356,7 @@
             <path d="M8 8v8M16 8v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
           </svg>
           <h3>Crowns, Bridges &amp; Dentures</h3>
-          <p class="desc">Custom prosthodontic solutions — ceramic crowns, fixed bridges and comfortable dentures.</p>
+          <p class="desc">Custom crowns, bridges and dentures designed to restore strength, comfort and appearance.</p>
         </div>
         <div class="svc-card">
           <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
@@ -364,45 +364,7 @@
               stroke-linejoin="round" />
           </svg>
           <h3>Oral Surgery</h3>
-          <p class="desc">Wisdom tooth extraction, surgical removal of impacted teeth and minor oral surgical
-            procedures.</p>
-        </div>
-        <div class="svc-card">
-          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
-            <path d="M12 22c-4 0-8-3-8-8V6h16v8c0 5-4 8-8 8z" stroke="currentColor" stroke-width="1.6"
-              stroke-linejoin="round" />
-            <path d="M4 10h16" stroke="currentColor" stroke-width="1.6" />
-          </svg>
-          <h3>Periodontics (Gum Care)</h3>
-          <p class="desc">Deep cleaning, gum disease treatment, flap surgery and comprehensive periodontal care.</p>
-        </div>
-        <div class="svc-card">
-          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" />
-            <path d="M12 8v4l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg>
-          <h3>Dental Diagnostics &amp; Advanced Technology</h3>
-          <p class="desc">Digital X-rays, RVG, OPG and intraoral cameras for precise diagnosis and treatment planning.
-          </p>
-        </div>
-        <div class="svc-card">
-          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.6" />
-            <path d="M5.5 21v-2a4.5 4.5 0 0 1 4.5-4.5h4a4.5 4.5 0 0 1 4.5 4.5v2" stroke="currentColor"
-              stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          <h3>Pediatric Dentistry</h3>
-          <p class="desc">Gentle, fear-free treatments tailored for children to build healthy dental habits early on.
-          </p>
-        </div>
-        <div class="svc-card">
-          <svg class="svc-icon" viewBox="0 0 24 24" fill="none">
-            <path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg>
-          <h3>Emergency Dental Care</h3>
-          <p class="desc">Immediate attention and pain relief for severe toothaches, trauma, or broken teeth.</p>
+          <p class="desc">Wisdom tooth removal, impacted tooth surgery and other minor oral surgical procedures.</p>
         </div>
       </div>
     </div>
@@ -419,16 +381,16 @@
       </div>
       <div class="team-grid reveal">
         <div class="doctor-card" data-doctor="yadav" role="button" tabindex="0" aria-haspopup="dialog">
-          <div class="doctor-avatar avatar-downtown">SY</div>
-          <p class="doctor-name">Dr. Sukhwant Yadav</p>
-          <p class="doctor-role">General &amp; cosmetic dentistry</p>
+          <img class="doctor-avatar" src="doctor-male.jpeg" alt="Dr. Sukhwant Singh Yadav" style="object-fit: cover;">
+          <p class="doctor-name">Dr. Sukhwant Singh Yadav</p>
+          <p class="doctor-role">Endodontist, Dentist</p>
           <span class="doctor-clinic-tag tag-downtown"><span
               style="width:6px;height:6px;border-radius:50%;background:var(--rust-deep);display:inline-block;"></span>The
             Dental Home</span>
           <div class="doctor-quals">
-            <span class="qual-pill">BDS, MDS</span>
-            <span class="qual-pill">Cosmetic dentistry</span>
-            <span class="qual-pill">Implantologist</span>
+            <span class="qual-pill">MDS - Conservative Dentistry &amp; Endodontics</span>
+            <span class="qual-pill">BDS</span>
+            <span class="qual-pill">17 years experience</span>
           </div>
           <p class="doctor-hint"><svg viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
@@ -436,16 +398,16 @@
             </svg>View full credentials</p>
         </div>
         <div class="doctor-card" data-doctor="chaurasiya" role="button" tabindex="0" aria-haspopup="dialog">
-          <div class="doctor-avatar avatar-riverside">SC</div>
-          <p class="doctor-name">Dr. Sushma Chaurasiya</p>
-          <p class="doctor-role">Orthodontics &amp; pediatric dentistry</p>
+          <img class="doctor-avatar" src="docter-female.png" alt="Dr. Sushma Chaurasia" style="object-fit: cover;">
+          <p class="doctor-name">Dr. Sushma Chaurasia</p>
+          <p class="doctor-role">Dentist, Orthodontist</p>
           <span class="doctor-clinic-tag tag-downtown"><span
               style="width:6px;height:6px;border-radius:50%;background:var(--rust-deep);display:inline-block;"></span>The
             Dental Home</span>
           <div class="doctor-quals">
-            <span class="qual-pill">BDS, MDS</span>
-            <span class="qual-pill">Orthodontist</span>
-            <span class="qual-pill">Pediatric specialist</span>
+            <span class="qual-pill">BDS</span>
+            <span class="qual-pill">MDS - Orthodontics</span>
+            <span class="qual-pill">18 years experience</span>
           </div>
           <p class="doctor-hint"><svg viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
@@ -483,7 +445,7 @@
       <div class="section-head reveal">
         <div>
           <div class="eyebrow">Visit us</div>
-          <h2>Our clinic</h2>
+          <h2>Our clinics</h2>
         </div>
         <p class="lede">A clean, modern space designed to make your visit comfortable.</p>
       </div>
@@ -496,7 +458,8 @@
       <div class="loc-panel active reveal" id="panel-clinic" data-clinic="clinic">
 
         <!-- Delhi Clinic -->
-        <div class="loc-info" id="info-delhi" data-lat="28.5396" data-lng="77.2477" data-name="The Dental Home - Delhi">
+        <div class="loc-info" id="info-delhi" data-lat="28.5396" data-lng="77.2477"
+          data-name="The Dental Home Chittaranjan Park Delhi">
           <span class="loc-badge badge-open">Open now — closes 8pm</span>
           <div class="loc-row">
             <svg viewBox="0 0 24 24" fill="none">
@@ -505,8 +468,8 @@
             </svg>
             <div>
               <div class="label">Address</div>
-              <div class="value" style="font-size:13.5px; line-height:1.4;">G-1422 (also listed as D-768, Lower Ground
-                Floor, near Mela Ground),<br>Market No. 2, Chittaranjan Park, New Delhi, 110019</div>
+              <div class="value" style="font-size:13.5px; line-height:1.4;">G-1422 Market No. 2, Chittaranjan Park,
+                New Delhi, 110019</div>
             </div>
           </div>
           <div class="loc-row">
@@ -593,33 +556,11 @@
           <div id="leaflet-map" style="position:absolute; inset:0; width:100%; height:100%; z-index:1;"></div>
           <div class="distance-calculator" id="dist-calc">
             <h4>Travel distance</h4>
-            <p style="font-size:12px; color:var(--ink-mute); margin-bottom:12px; line-height:1.4;">Calculate real
-              driving, walking &amp; transit distances from your location.</p>
             <button class="btn btn-primary" id="calc-dist-btn" style="padding:8px 14px; font-size:13px; width:100%;">Get
               exact distance</button>
-            <div id="dist-results" style="display:none; margin-top:4px;">
-              <p style="font-size:10px; color:var(--ink-mute); margin-bottom:8px; font-family:var(--font-mono);">Click a
-                mode to view its route on the map</p>
-              <div class="dist-row dist-clickable active" data-mode="driving"><span>🚗 Driving</span>
-                <div class="dist-detail"><strong id="dist-car">...</strong><small id="dist-car-speed"
-                    class="dist-speed"></small></div>
-              </div>
-              <div class="dist-row dist-clickable" data-mode="walking"><span>🚶 Walking</span>
-                <div class="dist-detail"><strong id="dist-walk">...</strong><small id="dist-walk-speed"
-                    class="dist-speed"></small></div>
-              </div>
-              <div class="dist-row dist-clickable" data-mode="bus"><span>🚌 Bus</span>
-                <div class="dist-detail"><strong id="dist-bus">...</strong><small id="dist-bus-speed"
-                    class="dist-speed"></small></div>
-              </div>
-              <div class="dist-row dist-clickable" data-mode="metro"><span>🚇 Metro</span>
-                <div class="dist-detail"><strong id="dist-metro">...</strong><small id="dist-metro-speed"
-                    class="dist-speed"></small></div>
-              </div>
-              <div id="dist-straight"
-                style="font-size:10.5px; color:var(--ink-mute); margin-top:10px; font-family:var(--font-mono);"></div>
+            <div id="dist-results" style="display:none; margin-top:12px;">
               <button class="btn btn-ghost" id="dist-recalc-btn"
-                style="padding:6px 12px; font-size:11.5px; width:100%; margin-top:10px; display:none;">↻
+                style="padding:6px 12px; font-size:11.5px; width:100%; display:none;">↻
                 Recalculate</button>
               <p id="dist-error" style="color:var(--coral-deep); font-size:12px; margin-top:12px; display:none;"></p>
             </div>
@@ -636,27 +577,8 @@
         <div class="eyebrow">Patient stories</div>
         <h2>What our patients say</h2>
       </div>
-      <div class="t-wrap reveal">
-        <div class="t-slide active">
-          <p class="t-quote">"The clinic feels so clean and welcoming. My kids actually look forward to their dental
-            visits now."</p>
-          <p class="t-name">Priya M. — Patient since 2022</p>
-        </div>
-        <div class="t-slide">
-          <p class="t-quote">"Dr. Yadav explained everything on the screen before starting. I've never felt so
-            comfortable at a dentist."</p>
-          <p class="t-name">Rahul K. — Patient since 2021</p>
-        </div>
-        <div class="t-slide">
-          <p class="t-quote">"Got my braces done by Dr. Sushma. The results are amazing and the whole process was
-            painless."</p>
-          <p class="t-name">Neha S. — Patient since 2023</p>
-        </div>
-        <div class="t-controls">
-          <button class="t-dot active" data-i="0" aria-label="Story 1"></button>
-          <button class="t-dot" data-i="1" aria-label="Story 2"></button>
-          <button class="t-dot" data-i="2" aria-label="Story 3"></button>
-        </div>
+      <div class="t-wrap reveal" id="reviews-container">
+        <!-- Reviews will be loaded dynamically here via JS -->
       </div>
     </div>
   </section>
@@ -769,18 +691,15 @@
               <div class="input-group">
                 <label for="service">Service Needed</label>
                 <select id="service">
-                  <option value="general">General & Preventive Dentistry</option>
-                  <option value="restorative">Restorative Dentistry & Fillings</option>
-                  <option value="root-canal">Root Canal Treatment</option>
+                  <option value="" disabled selected>Choose a service...</option>
                   <option value="cosmetic">Cosmetic Dentistry & Smile Makeover</option>
-                  <option value="orthodontics">Orthodontics (Braces & Aligners)</option>
                   <option value="implants">Dental Implants</option>
+                  <option value="root-canal">Root Canal Treatment</option>
+                  <option value="orthodontics">Orthodontics (Braces & Aligners)</option>
+                  <option value="general">General & Preventive Dentistry</option>
                   <option value="prosthodontics">Crowns, Bridges & Dentures</option>
                   <option value="surgery">Oral Surgery</option>
-                  <option value="periodontics">Periodontics (Gum Care)</option>
-                  <option value="diagnostics">Dental Diagnostics & Advanced Technology</option>
-                  <option value="pediatric">Pediatric Dentistry</option>
-                  <option value="emergency">Emergency Dental Care</option>
+                  <option value="restorative">Restorative Dentistry & Fillings</option>
                 </select>
               </div>
             </div>
@@ -805,7 +724,8 @@
       <div class="foot-grid">
         <div class="foot-col">
           <div class="logo" style="margin-bottom:12px;">
-            <img class="logo-mark" style="object-fit: contain; width: 24px; height: 24px;" src="logo.png" alt="The Dental Home" />
+            <img class="logo-mark" style="object-fit: contain; width: 24px; height: 24px;" src="logo.png"
+              alt="The Dental Home" />
             The Dental Home
           </div>
           <p style="max-width:28ch;">Quality dental care in a warm, welcoming environment.</p>
@@ -837,6 +757,13 @@
   <div class="mobile-cta">
     <a href="#book" class="btn btn-primary">Book appointment</a>
   </div>
+
+  <button id="scroll-to-top" aria-label="Scroll to top">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>
+  </button>
 
   <script src="main.js" defer></script>
 

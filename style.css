@@ -153,6 +153,8 @@
     font-family: var(--font-display);
     font-size: 19px;
     font-weight: 600;
+    text-decoration: none;
+    border-bottom: none;
   }
 
   .logo-mark {
@@ -1558,3 +1560,46 @@
       opacity: .25 !important;
     }
   }
+#scroll-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#scroll-to-top.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+#scroll-to-top:hover {
+  background: var(--rust);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  #scroll-to-top {
+    bottom: 84px; /* Above the mobile CTA */
+    right: 16px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
