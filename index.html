@@ -418,6 +418,21 @@
     </div>
   </section>
 
+  <div class="modal-overlay" id="service-modal" role="dialog" aria-modal="true" aria-labelledby="modal-service-name">
+    <div class="modal-panel" style="max-width:540px; padding:0; overflow:hidden; position:relative;">
+      <button class="modal-close" id="service-modal-close" aria-label="Close" style="position:absolute; top:16px; right:16px; z-index:10; background:rgba(255,255,255,0.9); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+        <svg width="12" height="12" viewBox="0 0 15 15">
+          <path d="M1 1l13 13M14 1L1 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+      </button>
+      <img id="modal-service-img" src="" alt="Service Photo" style="width:100%; height:300px; object-fit:cover; display:block;" />
+      <div style="padding:28px 24px;">
+        <h3 id="modal-service-name" style="margin-bottom:12px; font-size:24px;"></h3>
+        <p id="modal-service-desc" style="color:var(--ink-soft); font-size:15px; line-height:1.6;"></p>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-overlay" id="doctor-modal" role="dialog" aria-modal="true" aria-labelledby="modal-doc-name">
     <div class="modal-panel">
       <button class="modal-close" id="modal-close" aria-label="Close">
@@ -460,7 +475,6 @@
         <!-- Delhi Clinic -->
         <div class="loc-info" id="info-delhi" data-lat="28.5396" data-lng="77.2477"
           data-name="The Dental Home Chittaranjan Park Delhi">
-          <span class="loc-badge badge-open">Open now — closes 8pm</span>
           <div class="loc-row">
             <svg viewBox="0 0 24 24" fill="none">
               <path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z" stroke="currentColor" stroke-width="1.5" />
@@ -479,7 +493,8 @@
             </svg>
             <div>
               <div class="label">Hours</div>
-              <div class="value" style="font-family:var(--font-mono);">Mon–Sun, 11:00–20:00</div>
+              <div class="value" style="font-family:var(--font-mono); line-height:1.4;">Thu–Tue, 11:00–19:00<br>Wed
+                Closed</div>
             </div>
           </div>
           <div class="loc-row">
@@ -508,7 +523,6 @@
         <!-- Faridabad Clinic -->
         <div class="loc-info" id="info-faridabad" style="display:none;" data-lat="28.40478" data-lng="77.35598"
           data-name="The Dental Home - Faridabad">
-          <span class="loc-badge badge-open">Open now — closes 8pm</span>
           <div class="loc-row">
             <svg viewBox="0 0 24 24" fill="none">
               <path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z" stroke="currentColor" stroke-width="1.5" />
@@ -527,7 +541,8 @@
             </svg>
             <div>
               <div class="label">Hours</div>
-              <div class="value" style="font-family:var(--font-mono);">Mon–Sun, 11:00–20:00</div>
+              <div class="value" style="font-family:var(--font-mono); line-height:1.4;">Wed–Mon, 17:00–21:00<br>Tue
+                Closed</div>
             </div>
           </div>
           <div class="loc-row">
@@ -616,8 +631,8 @@
         <div class="faq-item">
           <button class="faq-q"><span>What are your timings?</span><span class="plus"></span></button>
           <div class="faq-a">
-            <p>We're open Monday to Saturday, 10 AM to 8 PM. For emergencies, you can call us anytime and we'll try to
-              accommodate you as soon as possible.</p>
+            <p>We're open Wednesday to Monday 5 PM to 9 PM for Faridabad Clinic and Thursday to Tuesday 11 AM to 7 PM
+              for Delhi Clinic.</p>
           </div>
         </div>
       </div>
@@ -650,9 +665,6 @@
               Call Us Now
             </a>
           </div>
-
-          <p style="font-size:11px; color:var(--ink-mute); margin-top:14px; font-family:var(--font-mono);">Available
-            Mon–Sun · 11 AM – 8 PM</p>
         </div>
         <div class="book-form-card">
           <form id="appointment-form">
@@ -687,6 +699,8 @@
               <div class="input-group">
                 <label for="date">Preferred Date *</label>
                 <input type="date" id="date" required>
+                <span id="date-error"
+                  style="color:var(--coral-deep); font-size:12px; margin-top:4px; display:none;"></span>
               </div>
               <div class="input-group">
                 <label for="service">Service Needed</label>
@@ -733,7 +747,7 @@
         <div class="foot-col">
           <p style="color:var(--ink); font-weight:500;">Clinic</p>
           <a href="#locations">Near Main Market</a>
-          <a href="#locations">Mon–Sat, 10am–8pm</a>
+          <a href="#locations">Thu–Tue 11am-7pm (Delhi) | Wed-Mon 5pm-9pm (FBD)</a>
         </div>
         <div class="foot-col">
           <p style="color:var(--ink); font-weight:500;">Doctors</p>

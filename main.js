@@ -365,6 +365,71 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && modal.classList.contains('open')) closeDoctorModal()
 })
 
+// Service modal logic
+const serviceModal = document.getElementById('service-modal')
+const serviceModalClose = document.getElementById('service-modal-close')
+const serviceModalImg = document.getElementById('modal-service-img')
+const serviceModalName = document.getElementById('modal-service-name')
+const serviceModalDesc = document.getElementById('modal-service-desc')
+
+const serviceImages = {
+  'General & Preventive Dentistry': 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&q=80&w=800',
+  'Restorative Dentistry & Fillings': 'https://images.unsplash.com/photo-1598256989800-fea99e491329?auto=format&fit=crop&q=80&w=800',
+  'Root Canal Treatment': 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&q=80&w=800',
+  'Cosmetic Dentistry & Smile Makeover': 'https://images.unsplash.com/photo-1536841261314-1e021c172d7f?auto=format&fit=crop&q=80&w=800',
+  'Orthodontics (Braces & Aligners)': 'https://images.unsplash.com/photo-1549488344-c687e6ccbe5b?auto=format&fit=crop&q=80&w=800',
+  'Dental Implants': 'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&q=80&w=800',
+  'Crowns, Bridges & Dentures': 'https://images.unsplash.com/photo-1628177142898-93e46e623666?auto=format&fit=crop&q=80&w=800',
+  'Oral Surgery': 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800'
+}
+
+let lastServiceFocused = null;
+
+function openServiceModal(title, desc) {
+  serviceModalName.textContent = title;
+  serviceModalDesc.textContent = desc;
+  serviceModalImg.src = serviceImages[title] || 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&q=80&w=800';
+  lastServiceFocused = document.activeElement;
+  serviceModal.classList.add('open');
+  serviceModalClose.focus();
+  document.body.style.overflow = 'hidden';
+}
+
+function closeServiceModal() {
+  serviceModal.classList.remove('open');
+  document.body.style.overflow = '';
+  if (lastServiceFocused) lastServiceFocused.focus();
+}
+
+document.querySelectorAll('.svc-card').forEach(card => {
+  card.setAttribute('role', 'button');
+  card.setAttribute('tabindex', '0');
+  card.style.cursor = 'pointer';
+
+  card.addEventListener('click', () => {
+    const title = card.querySelector('h3').textContent.trim();
+    const desc = card.querySelector('.desc').textContent.trim();
+    openServiceModal(title, desc);
+  });
+  
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const title = card.querySelector('h3').textContent.trim();
+      const desc = card.querySelector('.desc').textContent.trim();
+      openServiceModal(title, desc);
+    }
+  });
+});
+
+if (serviceModalClose) serviceModalClose.addEventListener('click', closeServiceModal);
+if (serviceModal) serviceModal.addEventListener('click', (e) => {
+  if (e.target === serviceModal) closeServiceModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && serviceModal && serviceModal.classList.contains('open')) closeServiceModal();
+});
+
 // sticky header shadow (optimized)
 const header = document.getElementById('site-header')
 let ticking = false
@@ -682,21 +747,34 @@ loadGoogleMapsScript()
   })
 
   btn.addEventListener('click', calculate)
-  
   function updateHeaderClinic(name) {
     const nameEl = document.getElementById('header-loc-name')
     const dotEl = document.getElementById('header-dot')
+    const isFbd = name.includes('Faridabad')
     if (nameEl) {
-       nameEl.textContent = name.includes('Faridabad') ? 'Faridabad Clinic' : 'CR Park Clinic'
+       nameEl.textContent = isFbd ? 'Faridabad Clinic' : 'CR Park Clinic'
     }
     
-    // Check if open (11 AM to 8 PM IST)
+    // Check if open based on clinic timings in IST
     const now = new Date()
     const utc = now.getTime() + (now.getTimezoneOffset() * 60000)
     const ist = new Date(utc + (3600000 * 5.5)) // IST is UTC+5:30
     const hours = ist.getHours()
+    const day = ist.getDay() // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
     
-    const isOpen = hours >= 11 && hours < 20
+    let isOpen = false
+    if (isFbd) {
+      // Faridabad: 5pm to 9pm (17 to 21), Tuesday off (day !== 2)
+      if (day !== 2 && hours >= 17 && hours < 21) {
+        isOpen = true
+      }
+    } else {
+      // CR Park: 11am to 7pm (11 to 19), Wednesday off (day !== 3)
+      if (day !== 3 && hours >= 11 && hours < 19) {
+        isOpen = true
+      }
+    }
+    
     if (dotEl) {
       if (isOpen) {
         dotEl.style.backgroundColor = '#27AE60' // Green
@@ -1150,4 +1228,57 @@ if (scrollToTopBtn) {
     })
   })
 }
+
+
+
+// Form Validation: Prevent booking on closed days
+(function setupBookingValidation() {
+  const clinicSelect = document.getElementById('clinic')
+  const dateInput = document.getElementById('date')
+  const dateError = document.getElementById('date-error')
+
+  if (!clinicSelect || !dateInput) return
+
+  // Prevent selecting past dates
+  const today = new Date()
+  const offset = today.getTimezoneOffset()
+  const localToday = new Date(today.getTime() - (offset * 60 * 1000)).toISOString().split('T')[0]
+  dateInput.setAttribute('min', localToday)
+
+  function validateBookingDate() {
+    if (!dateInput.value || !clinicSelect.value) {
+      if (dateError) dateError.style.display = 'none'
+      dateInput.setCustomValidity('')
+      return
+    }
+
+    const selectedDate = new Date(dateInput.value)
+    const day = selectedDate.getDay() // 0 = Sun, 1 = Mon, 2 = Tue, 3 = Wed...
+    
+    let isClosed = false
+    let closedDayName = ''
+
+    if (clinicSelect.value === 'delhi' && day === 3) {
+      isClosed = true
+      closedDayName = 'Wednesday'
+    } else if (clinicSelect.value === 'faridabad' && day === 2) {
+      isClosed = true
+      closedDayName = 'Tuesday'
+    }
+
+    if (isClosed) {
+      if (dateError) {
+        dateError.textContent = `This clinic is closed on ${closedDayName}s. Please select another date.`
+        dateError.style.display = 'block'
+      }
+      dateInput.setCustomValidity(`Clinic is closed on ${closedDayName}s.`)
+    } else {
+      if (dateError) dateError.style.display = 'none'
+      dateInput.setCustomValidity('')
+    }
+  }
+
+  clinicSelect.addEventListener('change', validateBookingDate)
+  dateInput.addEventListener('change', validateBookingDate)
+})()
 
