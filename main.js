@@ -1,3 +1,10 @@
+// --- HTML Sanitization Utility (XSS Protection) ---
+function escapeHTML(str) {
+  const div = document.createElement('div')
+  div.appendChild(document.createTextNode(str))
+  return div.innerHTML
+}
+
 // --- Interactive teeth animation ---
 ;(function () {
   const scene = document.querySelector('.scene')
@@ -300,7 +307,7 @@ const doctorData = {
       '11 years as a specialist',
       'Expert in braces and aligners',
     ],
-    image: 'docter-female.png',
+    image: 'doctor-female.png',
   },
 }
 const modal = document.getElementById('doctor-modal')
@@ -316,7 +323,7 @@ function openDoctorModal(id) {
   const d = doctorData[id]
   if (!d) return
   if (d.image) {
-    modalAvatar.innerHTML = `<img src="${d.image}" alt="${d.name}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`
+    modalAvatar.innerHTML = `<img src="${escapeHTML(d.image)}" alt="${escapeHTML(d.name)}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`
     modalAvatar.className = 'modal-avatar'
   } else {
     modalAvatar.textContent = d.initials
@@ -332,7 +339,7 @@ function openDoctorModal(id) {
     .map(
       (q) =>
         '<li><svg viewBox="0 0 24 24" fill="none" style="color:var(--rust)"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>' +
-        q +
+        escapeHTML(q) +
         '</span></li>',
     )
     .join('')
@@ -373,62 +380,72 @@ const serviceModalName = document.getElementById('modal-service-name')
 const serviceModalDesc = document.getElementById('modal-service-desc')
 
 const serviceImages = {
-  'General & Preventive Dentistry': 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&q=80&w=800',
-  'Restorative Dentistry & Fillings': 'https://images.unsplash.com/photo-1598256989800-fea99e491329?auto=format&fit=crop&q=80&w=800',
-  'Root Canal Treatment': 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&q=80&w=800',
-  'Cosmetic Dentistry & Smile Makeover': 'https://images.unsplash.com/photo-1536841261314-1e021c172d7f?auto=format&fit=crop&q=80&w=800',
-  'Orthodontics (Braces & Aligners)': 'https://images.unsplash.com/photo-1549488344-c687e6ccbe5b?auto=format&fit=crop&q=80&w=800',
-  'Dental Implants': 'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&q=80&w=800',
-  'Crowns, Bridges & Dentures': 'https://images.unsplash.com/photo-1628177142898-93e46e623666?auto=format&fit=crop&q=80&w=800',
-  'Oral Surgery': 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800'
+  'General & Preventive Dentistry': 'service-general.jpg',
+  'Restorative Dentistry & Fillings': 'service-restorative.jpg',
+  'Root Canal Treatment': 'service-root-canal.jpg',
+  'Cosmetic Dentistry & Smile Makeover': 'service-cosmetic.jpg',
+  'Orthodontics (Braces & Aligners)': 'service-ortho.jpg',
+  'Dental Implants': 'service-implants.jpg',
+  'Crowns, Bridges & Dentures': 'service-crowns.jpg',
+  'Oral Surgery': 'service-surgery.jpg',
 }
 
-let lastServiceFocused = null;
+
+let lastServiceFocused = null
 
 function openServiceModal(title, desc) {
-  serviceModalName.textContent = title;
-  serviceModalDesc.textContent = desc;
-  serviceModalImg.src = serviceImages[title] || 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&q=80&w=800';
-  lastServiceFocused = document.activeElement;
-  serviceModal.classList.add('open');
-  serviceModalClose.focus();
-  document.body.style.overflow = 'hidden';
+  serviceModalName.textContent = title
+  serviceModalDesc.textContent = desc
+  serviceModalImg.src =
+    serviceImages[title] ||
+    'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&q=80&w=800'
+  lastServiceFocused = document.activeElement
+  serviceModal.classList.add('open')
+  serviceModalClose.focus()
+  document.body.style.overflow = 'hidden'
 }
 
 function closeServiceModal() {
-  serviceModal.classList.remove('open');
-  document.body.style.overflow = '';
-  if (lastServiceFocused) lastServiceFocused.focus();
+  serviceModal.classList.remove('open')
+  document.body.style.overflow = ''
+  if (lastServiceFocused) lastServiceFocused.focus()
 }
 
-document.querySelectorAll('.svc-card').forEach(card => {
-  card.setAttribute('role', 'button');
-  card.setAttribute('tabindex', '0');
-  card.style.cursor = 'pointer';
+document.querySelectorAll('.svc-card').forEach((card) => {
+  card.setAttribute('role', 'button')
+  card.setAttribute('tabindex', '0')
+  card.style.cursor = 'pointer'
 
   card.addEventListener('click', () => {
-    const title = card.querySelector('h3').textContent.trim();
-    const desc = card.querySelector('.desc').textContent.trim();
-    openServiceModal(title, desc);
-  });
-  
+    const title = card.querySelector('h3').textContent.trim()
+    const desc = card.querySelector('.desc').textContent.trim()
+    openServiceModal(title, desc)
+  })
+
   card.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      const title = card.querySelector('h3').textContent.trim();
-      const desc = card.querySelector('.desc').textContent.trim();
-      openServiceModal(title, desc);
+      e.preventDefault()
+      const title = card.querySelector('h3').textContent.trim()
+      const desc = card.querySelector('.desc').textContent.trim()
+      openServiceModal(title, desc)
     }
-  });
-});
+  })
+})
 
-if (serviceModalClose) serviceModalClose.addEventListener('click', closeServiceModal);
-if (serviceModal) serviceModal.addEventListener('click', (e) => {
-  if (e.target === serviceModal) closeServiceModal();
-});
+if (serviceModalClose)
+  serviceModalClose.addEventListener('click', closeServiceModal)
+if (serviceModal)
+  serviceModal.addEventListener('click', (e) => {
+    if (e.target === serviceModal) closeServiceModal()
+  })
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && serviceModal && serviceModal.classList.contains('open')) closeServiceModal();
-});
+  if (
+    e.key === 'Escape' &&
+    serviceModal &&
+    serviceModal.classList.contains('open')
+  )
+    closeServiceModal()
+})
 
 // sticky header shadow (optimized)
 const header = document.getElementById('site-header')
@@ -456,62 +473,64 @@ async function loadReviews() {
     const res = await fetch('reviews.json')
     if (!res.ok) throw new Error('Failed to load reviews')
     const reviews = await res.json()
-    
+
     let html = ''
     let controlsHtml = '<div class="t-controls">'
-    
-    const MAX_LENGTH = 180;
+
+    const MAX_LENGTH = 180
     reviews.forEach((r, i) => {
-      let quoteHtml = `"${r.text}"`;
+      const safeText = escapeHTML(r.text)
+      const safeAuthor = escapeHTML(r.author)
+      const safeDate = escapeHTML(r.date)
+      let quoteHtml = `"${safeText}"`
       if (r.text.length > MAX_LENGTH) {
-        const shortText = r.text.substring(0, MAX_LENGTH).trim() + '...';
-        const fullText = r.text;
+        const shortText = escapeHTML(r.text.substring(0, MAX_LENGTH).trim() + '...')
         quoteHtml = `
           <span class="short-text">"${shortText}"</span>
-          <span class="full-text" style="display:none;">"${fullText}"</span>
+          <span class="full-text" style="display:none;">"${safeText}"</span>
           <button class="read-more-btn" style="background:none; border:none; color:var(--rust); font-family:var(--font-mono); font-size:13px; font-weight:600; cursor:pointer; padding:0; margin-left:8px; text-decoration:underline;">Read more</button>
-        `;
+        `
       }
 
       html += `
         <div class="t-slide ${i === 0 ? 'active' : ''}">
           <p class="t-quote">${quoteHtml}</p>
-          <p class="t-name">${r.author} — ${r.date}</p>
+          <p class="t-name">${safeAuthor} — ${safeDate}</p>
         </div>
       `
-      controlsHtml += `<button class="t-dot ${i === 0 ? 'active' : ''}" data-i="${i}" aria-label="Story ${i+1}"></button>`
+      controlsHtml += `<button class="t-dot ${i === 0 ? 'active' : ''}" data-i="${i}" aria-label="Story ${i + 1}"></button>`
     })
-    
+
     controlsHtml += '</div>'
     container.innerHTML = html + controlsHtml
 
-    container.querySelectorAll('.read-more-btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation(); // prevent other click events if any
-        const p = this.parentElement;
-        const shortText = p.querySelector('.short-text');
-        const fullText = p.querySelector('.full-text');
-        
-        if (fullText.style.display === 'none') {
-          fullText.style.display = 'inline';
-          shortText.style.display = 'none';
-          this.textContent = 'Read less';
-          // Optionally stop the carousel from sliding while reading
-          clearInterval(timer);
-        } else {
-          fullText.style.display = 'none';
-          shortText.style.display = 'inline';
-          this.textContent = 'Read more';
-          restart(); // resume carousel
-        }
-      });
-    });
+    container.querySelectorAll('.read-more-btn').forEach((btn) => {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation() // prevent other click events if any
+        const p = this.parentElement
+        const shortText = p.querySelector('.short-text')
+        const fullText = p.querySelector('.full-text')
 
+        if (fullText.style.display === 'none') {
+          fullText.style.display = 'inline'
+          shortText.style.display = 'none'
+          this.textContent = 'Read less'
+          // Optionally stop the carousel from sliding while reading
+          clearInterval(timer)
+        } else {
+          fullText.style.display = 'none'
+          shortText.style.display = 'inline'
+          this.textContent = 'Read more'
+          restart() // resume carousel
+        }
+      })
+    })
 
     // Re-initialize carousel logic
     const slides = container.querySelectorAll('.t-slide')
     const dots = container.querySelectorAll('.t-dot')
-    let current = 0, timer
+    let current = 0,
+      timer
 
     function showSlide(i) {
       slides.forEach((s, idx) => s.classList.toggle('active', idx === i))
@@ -534,10 +553,10 @@ async function loadReviews() {
     restart()
     container.addEventListener('mouseenter', () => clearInterval(timer))
     container.addEventListener('mouseleave', restart)
-    
   } catch (err) {
     console.error(err)
-    container.innerHTML = '<p style="text-align:center;color:var(--ink-mute);">Could not load reviews at this time.</p>'
+    container.innerHTML =
+      '<p style="text-align:center;color:var(--ink-mute);">Could not load reviews at this time.</p>'
   }
 }
 loadReviews()
@@ -546,6 +565,12 @@ loadReviews()
 document.querySelectorAll('.faq-item').forEach((item) => {
   const btn = item.querySelector('.faq-q')
   const answer = item.querySelector('.faq-a')
+
+  // Initialize any already-open FAQ items with proper max-height
+  if (item.classList.contains('open')) {
+    answer.style.maxHeight = answer.scrollHeight + 'px'
+  }
+
   btn.addEventListener('click', () => {
     const isOpen = item.classList.contains('open')
     document.querySelectorAll('.faq-item').forEach((i) => {
@@ -675,6 +700,19 @@ loadGoogleMapsScript()
   const results = document.getElementById('dist-results')
   const errorEl = document.getElementById('dist-error')
   const recalcBtn = document.getElementById('dist-recalc-btn')
+  const closeBtn = document.getElementById('dist-close-btn')
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      results.style.display = 'none'
+      closeBtn.style.display = 'none'
+      btn.style.display = ''
+      if (routeLayer) {
+        map.removeLayer(routeLayer)
+        routeLayer = null
+      }
+    })
+  }
 
   // Route colors per mode
   const MODE_COLORS = {
@@ -752,16 +790,16 @@ loadGoogleMapsScript()
     const dotEl = document.getElementById('header-dot')
     const isFbd = name.includes('Faridabad')
     if (nameEl) {
-       nameEl.textContent = isFbd ? 'Faridabad Clinic' : 'CR Park Clinic'
+      nameEl.textContent = isFbd ? 'Faridabad Clinic' : 'CR Park Clinic'
     }
-    
+
     // Check if open based on clinic timings in IST
     const now = new Date()
-    const utc = now.getTime() + (now.getTimezoneOffset() * 60000)
-    const ist = new Date(utc + (3600000 * 5.5)) // IST is UTC+5:30
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000
+    const ist = new Date(utc + 3600000 * 5.5) // IST is UTC+5:30
     const hours = ist.getHours()
     const day = ist.getDay() // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-    
+
     let isOpen = false
     if (isFbd) {
       // Faridabad: 5pm to 9pm (17 to 21), Tuesday off (day !== 2)
@@ -774,7 +812,7 @@ loadGoogleMapsScript()
         isOpen = true
       }
     }
-    
+
     if (dotEl) {
       if (isOpen) {
         dotEl.style.backgroundColor = '#27AE60' // Green
@@ -803,21 +841,23 @@ loadGoogleMapsScript()
       if (data && data.latitude && data.longitude) {
         const userLat = parseFloat(data.latitude)
         const userLon = parseFloat(data.longitude)
-        
+
         const delhiDist = haversine(userLat, userLon, 28.5396, 77.2477)
         const fbdDist = haversine(userLat, userLon, 28.40478, 77.35598)
-        
+
         if (fbdDist < delhiDist) {
           const fbdTab = document.querySelector('[data-target="faridabad"]')
           if (fbdTab && !fbdTab.classList.contains('active')) fbdTab.click()
         } else {
           const delhiTab = document.querySelector('[data-target="delhi"]')
-          if (delhiTab && !delhiTab.classList.contains('active')) delhiTab.click()
+          if (delhiTab && !delhiTab.classList.contains('active'))
+            delhiTab.click()
         }
       }
     } catch (e) {}
   }
-  autoSelectNearestClinic()
+  // Removed auto IP geolocation call — only triggered by user interaction now
+  // Users can click the header location pill or distance button to trigger location
   if (recalcBtn)
     recalcBtn.addEventListener('click', () => {
       recalcBtn.style.display = 'none'
@@ -883,16 +923,22 @@ loadGoogleMapsScript()
         }
       }
 
-      // Draw driving route
+      // === WALKING (estimate from driving) ===
+      const walkDist = drivingDist || straightDist * 1.2
+      const walkTime = (walkDist / 5) * 60 // ~5 km/h walking speed
+      routeData.walking = { dist: walkDist, time: walkTime, straight: true }
+
+      // Draw driving route on map
       drawRoute('driving')
+
+      // Render distance results into the UI
+      renderDistanceResults()
 
       if (recalcBtn) recalcBtn.style.display = ''
     } catch (err) {
       showError(err.message || 'Could not get your location.')
     }
   }
-
-
 
   // --- Draw a specific mode's route on map ---
   function drawRoute(mode) {
@@ -986,11 +1032,13 @@ loadGoogleMapsScript()
             resolve({
               coords: {
                 latitude: parseFloat(data.latitude),
-                longitude: parseFloat(data.longitude)
-              }
+                longitude: parseFloat(data.longitude),
+              },
             })
           } else {
-            reject(new Error(fallbackMsg || 'Could not determine your location.'))
+            reject(
+              new Error(fallbackMsg || 'Could not determine your location.'),
+            )
           }
         } catch (e) {
           reject(new Error(fallbackMsg || 'Could not determine your location.'))
@@ -1006,7 +1054,9 @@ loadGoogleMapsScript()
         (err) => {
           if (err.code === 1) {
             // Access denied - use IP location as fallback
-            tryIpGeolocation('Location access denied. Please allow location permission.')
+            tryIpGeolocation(
+              'Location access denied. Please allow location permission.',
+            )
           } else if (err.code === 2 || err.code === 3) {
             // Fallback to low accuracy on timeout or unavailable
             navigator.geolocation.getCurrentPosition(
@@ -1014,13 +1064,18 @@ loadGoogleMapsScript()
               (err2) => {
                 // If low accuracy fails, try IP geolocation
                 let msg = 'Could not determine your location.'
-                if (err2.code === 1) msg = 'Location access denied. Please allow location permission.'
-                else if (err2.code === 2) msg = 'Location unavailable. Please check your device settings.'
-                else if (err2.code === 3) msg = 'Location request timed out. Please try again.'
-                
+                if (err2.code === 1)
+                  msg =
+                    'Location access denied. Please allow location permission.'
+                else if (err2.code === 2)
+                  msg =
+                    'Location unavailable. Please check your device settings.'
+                else if (err2.code === 3)
+                  msg = 'Location request timed out. Please try again.'
+
                 tryIpGeolocation(msg)
               },
-              fallbackOptions
+              fallbackOptions,
             )
           } else {
             tryIpGeolocation('Could not determine your location.')
@@ -1030,7 +1085,7 @@ loadGoogleMapsScript()
           enableHighAccuracy: true,
           timeout: 6000,
           maximumAge: 60000,
-        }
+        },
       )
     })
   }
@@ -1127,11 +1182,56 @@ loadGoogleMapsScript()
     return `${d} · ${t}`
   }
 
+  // --- Render distance results into the UI ---
+  function renderDistanceResults() {
+    const driving = routeData.driving
+    const walking = routeData.walking
+    let html = ''
+
+    if (driving) {
+      html += `<div class="dist-clickable dist-row active" data-mode="driving">
+        <span>🚗 Driving</span>
+        <div class="dist-detail">
+          <strong>${formatResult(driving.dist, driving.time)}</strong>
+          ${driving.straight ? '<span class="dist-speed">~estimate</span>' : ''}
+        </div>
+      </div>`
+    }
+
+    if (walking) {
+      html += `<div class="dist-clickable dist-row" data-mode="walking">
+        <span>🚶 Walking</span>
+        <div class="dist-detail">
+          <strong>${formatResult(walking.dist, walking.time)}</strong>
+          <span class="dist-speed">~estimate</span>
+        </div>
+      </div>`
+    }
+
+    results.innerHTML = html
+    if (closeBtn) closeBtn.style.display = 'block'
+
+    if (recalcBtn) {
+      recalcBtn.style.display = ''
+      results.appendChild(recalcBtn)
+    }
+
+    // Click handlers for route mode switching
+    results.querySelectorAll('.dist-clickable').forEach((row) => {
+      row.addEventListener('click', () => {
+        results.querySelectorAll('.dist-clickable').forEach(r => r.classList.remove('active'))
+        row.classList.add('active')
+        drawRoute(row.dataset.mode)
+      })
+    })
+  }
+
   // --- Show error ---
   function showError(msg) {
     btn.textContent = 'Get exact distance'
     btn.disabled = false
     btn.style.display = ''
+    if (closeBtn) closeBtn.style.display = 'none'
     results.style.display = 'block'
     errorEl.textContent = msg
     errorEl.style.display = 'block'
@@ -1139,52 +1239,109 @@ loadGoogleMapsScript()
   }
 })()
 
-// mobile menu (simple scroll-to-nav fallback)
-document.querySelector('.burger').addEventListener('click', () => {
-  document.querySelector('#locations').scrollIntoView({ behavior: 'smooth' })
-})
+// --- Mobile Navigation Menu ---
+;(function () {
+  const burger = document.querySelector('.burger')
+  const mobileNav = document.getElementById('mobile-nav')
+  const mobileNavClose = document.getElementById('mobile-nav-close')
+  if (!burger || !mobileNav) return
+
+  function openMobileNav() {
+    mobileNav.classList.add('open')
+    document.body.style.overflow = 'hidden'
+  }
+
+  function closeMobileNav() {
+    mobileNav.classList.remove('open')
+    document.body.style.overflow = ''
+  }
+
+  burger.addEventListener('click', openMobileNav)
+  if (mobileNavClose) mobileNavClose.addEventListener('click', closeMobileNav)
+
+  // Close on overlay click
+  mobileNav.addEventListener('click', (e) => {
+    if (e.target === mobileNav) closeMobileNav()
+  })
+
+  // Close on link click
+  mobileNav.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMobileNav)
+  })
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileNav.classList.contains('open')) closeMobileNav()
+  })
+})()
 
 // Form Submission -> WhatsApp Redirect
 const appForm = document.getElementById('appointment-form')
 if (appForm) {
   appForm.addEventListener('submit', (e) => {
     e.preventDefault()
-    const btn = e.target.querySelector('button[type="submit"]')
+    const submitBtn = e.target.querySelector('button[type="submit"]')
     const status = document.getElementById('form-status')
     const honeypot = e.target.querySelector('input[name="_honey"]').value
 
     if (honeypot) return // simple spam check
 
     // Get form values
-    const name = document.getElementById('name').value.trim()
-    const phone = document.getElementById('phone').value.trim()
-    const email = document.getElementById('email').value.trim()
-    const date = document.getElementById('date').value
+    const formName = document.getElementById('name').value.trim()
+    const formPhone = document.getElementById('phone').value.trim()
+    const formEmail = document.getElementById('email').value.trim()
+    const formDate = document.getElementById('date').value
+
+    // Validate phone number
+    const phoneRegex = /^\+?[0-9]{7,15}$/
+    if (!phoneRegex.test(formPhone)) {
+      status.style.display = 'block'
+      status.style.color = 'var(--coral-deep)'
+      status.textContent = 'Please enter a valid phone number (7-15 digits).'
+      setTimeout(() => { status.style.display = 'none' }, 3000)
+      return
+    }
+
+    // Validate booking date is not on a closed day
+    const clinicSelect = document.getElementById('clinic')
+    const dateInput = document.getElementById('date')
+    if (formDate && clinicSelect.value) {
+      const [yr, mo, dy] = formDate.split('-').map(Number)
+      const selectedDay = new Date(yr, mo - 1, dy).getDay()
+      if (clinicSelect.value === 'delhi' && selectedDay === 3) {
+        dateInput.setCustomValidity('The Delhi clinic is closed on Wednesdays.')
+        dateInput.reportValidity()
+        return
+      } else if (clinicSelect.value === 'faridabad' && selectedDay === 2) {
+        dateInput.setCustomValidity('The Faridabad clinic is closed on Tuesdays.')
+        dateInput.reportValidity()
+        return
+      } else {
+        dateInput.setCustomValidity('')
+      }
+    }
 
     const serviceSelect = document.getElementById('service')
     const service = serviceSelect.options[serviceSelect.selectedIndex].text
-
-    const clinicSelect = document.getElementById('clinic')
     const clinic = clinicSelect.options[clinicSelect.selectedIndex].text
-
-    const notes = document.getElementById('notes').value.trim()
+    const formNotes = document.getElementById('notes').value.trim()
 
     // Construct WhatsApp message
     let msg = `Hello! I would like to book an appointment at The Dental Home.\n\n`
     msg += `Here are my details:\n`
-    msg += `Name: ${name}\n`
-    msg += `Phone: ${phone}\n`
-    if (email) msg += `Email: ${email}\n`
+    msg += `Name: ${formName}\n`
+    msg += `Phone: ${formPhone}\n`
+    if (formEmail) msg += `Email: ${formEmail}\n`
     msg += `Clinic: ${clinic}\n`
-    msg += `Preferred Date: ${date}\n`
+    msg += `Preferred Date: ${formDate}\n`
     msg += `Service Needed: ${service}\n`
-    if (notes) msg += `Notes: ${notes}\n\n`
+    if (formNotes) msg += `Notes: ${formNotes}\n\n`
     msg += `Looking forward to your confirmation. Thank you!`
 
     const whatsappUrl = `https://wa.me/918264001306?text=${encodeURIComponent(msg)}`
 
-    btn.innerHTML = `<span style="opacity:0.8;">Redirecting to WhatsApp...</span>`
-    btn.style.pointerEvents = 'none'
+    submitBtn.innerHTML = `<span style="opacity:0.8;">Redirecting to WhatsApp...</span>`
+    submitBtn.style.pointerEvents = 'none'
 
     // Open WhatsApp in new tab
     window.open(whatsappUrl, '_blank')
@@ -1192,8 +1349,8 @@ if (appForm) {
     // Update UI
     setTimeout(() => {
       e.target.reset()
-      btn.innerHTML = `Request Sent via WhatsApp`
-      btn.style.background = 'var(--slate-deep)'
+      submitBtn.innerHTML = `Request Sent via WhatsApp`
+      submitBtn.style.background = 'var(--slate-deep)'
       status.style.display = 'block'
       status.style.color = 'var(--slate-deep)'
       status.textContent =
@@ -1201,9 +1358,9 @@ if (appForm) {
 
       // Restore the button and form to its original state after 4 seconds
       setTimeout(() => {
-        btn.innerHTML = `Submit`
-        btn.style.background = ''
-        btn.style.pointerEvents = ''
+        submitBtn.innerHTML = `Submit`
+        submitBtn.style.background = ''
+        submitBtn.style.pointerEvents = ''
         status.style.display = 'none'
       }, 4000)
     }, 1500)
@@ -1211,29 +1368,32 @@ if (appForm) {
 }
 
 // Scroll to Top Button Logic
-const scrollToTopBtn = document.getElementById("scroll-to-top")
+const scrollToTopBtn = document.getElementById('scroll-to-top')
 if (scrollToTopBtn) {
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) {
-      scrollToTopBtn.classList.add("show")
-    } else {
-      scrollToTopBtn.classList.remove("show")
-    }
-  }, { passive: true })
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (window.scrollY > 300) {
+        scrollToTopBtn.classList.add('show')
+      } else {
+        scrollToTopBtn.classList.remove('show')
+      }
+    },
+    { passive: true },
+  )
 
-  scrollToTopBtn.addEventListener("click", () => {
+  scrollToTopBtn.addEventListener('click', () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: 'smooth',
     })
   })
 }
 
-
-
 // Form Validation: Prevent booking on closed days
-(function setupBookingValidation() {
+;(function setupBookingValidation() {
   const clinicSelect = document.getElementById('clinic')
+  const appForm = document.getElementById('appointment-form')
   const dateInput = document.getElementById('date')
   const dateError = document.getElementById('date-error')
 
@@ -1242,7 +1402,9 @@ if (scrollToTopBtn) {
   // Prevent selecting past dates
   const today = new Date()
   const offset = today.getTimezoneOffset()
-  const localToday = new Date(today.getTime() - (offset * 60 * 1000)).toISOString().split('T')[0]
+  const localToday = new Date(today.getTime() - offset * 60 * 1000)
+    .toISOString()
+    .split('T')[0]
   dateInput.setAttribute('min', localToday)
 
   function validateBookingDate() {
@@ -1252,9 +1414,11 @@ if (scrollToTopBtn) {
       return
     }
 
-    const selectedDate = new Date(dateInput.value)
+    // Parse as local date to avoid UTC timezone shifts changing weekday checks.
+    const [year, month, dayOfMonth] = dateInput.value.split('-').map(Number)
+    const selectedDate = new Date(year, month - 1, dayOfMonth)
     const day = selectedDate.getDay() // 0 = Sun, 1 = Mon, 2 = Tue, 3 = Wed...
-    
+
     let isClosed = false
     let closedDayName = ''
 
@@ -1279,6 +1443,13 @@ if (scrollToTopBtn) {
   }
 
   clinicSelect.addEventListener('change', validateBookingDate)
+  dateInput.addEventListener('input', validateBookingDate)
   dateInput.addEventListener('change', validateBookingDate)
-})()
 
+  if (appForm) {
+    appForm.addEventListener('submit', () => {
+      validateBookingDate()
+      dateInput.reportValidity()
+    })
+  }
+})()

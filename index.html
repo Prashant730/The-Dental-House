@@ -4,20 +4,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com data:; connect-src 'self' https://get.geojs.io https://router.project-osrm.org; frame-src https://www.google.com https://maps.googleapis.com;">
   <meta name="description"
     content="The Dental Home offers expert general, cosmetic, and pediatric dentistry. Book a secure appointment with Dr. Sukhwant Yadav and Dr. Sushma Chaurasiya today.">
   <meta property="og:title" content="The Dental Home — Expert Dentistry">
   <meta property="og:description"
     content="Providing premium, painless dental care in a state-of-the-art clinic. Book your visit today.">
   <meta property="og:type" content="website">
-  <link rel="canonical" href="https://www.thedentalhome.example.com/">
+  <meta property="og:url" content="https://prashant730.github.io/The-Dental-House/">
+  <meta property="og:image" content="logo.png">
+  <link rel="canonical" href="https://prashant730.github.io/The-Dental-House/">
   <link rel="preconnect" href="https://tile.openstreetmap.org">
   <link rel="preconnect" href="https://router.project-osrm.org">
+  <!-- SECURITY NOTE: When adding your Google Maps API key below, ensure it is restricted by HTTP referrer in Google Cloud Console to prevent abuse. -->
   <meta name="google-maps-api-key" content="">
   <title>The Dental Home — Dr.Sukhwant Yadav &amp; Dr. Sushma Chaurasiya</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- SECURITY NOTE: Subresource Integrity (SRI) hashes cannot be used for Google Fonts CSS because the file is dynamically generated based on the user's browser. -->
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600&display=swap"
     rel="stylesheet">
@@ -29,8 +34,7 @@
     <div class="nav-inner">
       <a href="#" style="text-decoration: none;">
         <div class="logo">
-          <img class="logo-mark" style="object-fit: contain; width: 30px; height: 30px;" src="logo.png"
-            alt="The Dental Home" />
+          <img class="logo-mark" style="object-fit: contain; width: 30px; height: 30px;" src="logo.png" alt="The Dental Home" />
           The Dental Home
         </div>
       </a>
@@ -54,9 +58,34 @@
     </div>
   </header>
 
+  <!-- Mobile Navigation Overlay -->
+  <div class="mobile-nav-overlay" id="mobile-nav">
+    <div class="mobile-nav-panel">
+      <div class="mobile-nav-header">
+        <div class="logo">
+          <img class="logo-mark" style="object-fit: contain; width: 24px; height: 24px;" src="logo.png" alt="The Dental Home" />
+          The Dental Home
+        </div>
+        <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">
+          <svg width="18" height="18" viewBox="0 0 15 15">
+            <path d="M1 1l13 13M14 1L1 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <nav class="mobile-nav-links">
+        <a href="#services">Services</a>
+        <a href="#team">Our Doctors</a>
+        <a href="#locations">Visit Us</a>
+        <a href="#stories">Stories</a>
+        <a href="#faq">FAQ</a>
+        <a href="#book" class="btn btn-primary" style="margin-top: 8px;">Book appointment</a>
+      </nav>
+    </div>
+  </div>
+
   <section class="hero">
     <video id="hero-video" preload="auto" autoplay muted loop playsinline>
-      <source src="create_a_background_video_for.mp4" type="video/mp4">
+      <source src="hero-background.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay"></div>
     <div class="watermark-cover" id="teeth-scene">
@@ -254,9 +283,10 @@
     <div class="wrap">
       <div class="hero-content">
         <div class="eyebrow">Excellence in Dental Care</div>
-        <h1>Modern dentistry with a personal touch.</h1>
-        <p class="lede" style="margin-top:20px;">Expert care by Sukhwant Yadav and Dr. Sushma Chaurasiya. We combine
-          advanced technology with a gentle approach to ensure your long-term oral health.</p>
+        <h1>Welcome to The Dental Home</h1>
+        <p class="lede" style="margin-top:20px; margin-bottom:20px;">
+          A trusted dental practice in New Delhi & Faridabad led by AIIMS-trained specialists. We combine clinical excellence with warmth and transparency to help you achieve a healthy, confident smile.
+        </p>
         <div class="hero-actions">
           <a href="#book" class="btn btn-primary">Book a visit</a>
           <a href="#services" class="btn btn-ghost">See services</a>
@@ -398,7 +428,7 @@
             </svg>View full credentials</p>
         </div>
         <div class="doctor-card" data-doctor="chaurasiya" role="button" tabindex="0" aria-haspopup="dialog">
-          <img class="doctor-avatar" src="docter-female.png" alt="Dr. Sushma Chaurasia" style="object-fit: cover;">
+          <img class="doctor-avatar" src="doctor-female.png" alt="Dr. Sushma Chaurasia" style="object-fit: cover;">
           <p class="doctor-name">Dr. Sushma Chaurasia</p>
           <p class="doctor-role">Dentist, Orthodontist</p>
           <span class="doctor-clinic-tag tag-downtown"><span
@@ -570,7 +600,12 @@
         <div class="loc-map">
           <div id="leaflet-map" style="position:absolute; inset:0; width:100%; height:100%; z-index:1;"></div>
           <div class="distance-calculator" id="dist-calc">
-            <h4>Travel distance</h4>
+            <button id="dist-close-btn" aria-label="Close distance calculator" style="position:absolute; top:12px; right:12px; background:none; border:none; cursor:pointer; color:var(--ink-soft); padding:4px; display:none;">
+              <svg width="10" height="10" viewBox="0 0 15 15">
+                <path d="M1 1l13 13M14 1L1 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+            <h4 style="padding-right:20px;">Travel distance</h4>
             <button class="btn btn-primary" id="calc-dist-btn" style="padding:8px 14px; font-size:13px; width:100%;">Get
               exact distance</button>
             <div id="dist-results" style="display:none; margin-top:12px;">
@@ -609,7 +644,7 @@
       <div class="faq reveal">
         <div class="faq-item open">
           <button class="faq-q"><span>Do you accept insurance?</span><span class="plus"></span></button>
-          <div class="faq-a" style="max-height:100px;">
+          <div class="faq-a">
             <p>Yes, we accept all major insurance plans and cashless treatment through most TPA networks. Call us to
               confirm your plan before your visit.</p>
           </div>
@@ -674,21 +709,21 @@
             <div class="form-grid">
               <div class="input-group">
                 <label for="name">Full Name *</label>
-                <input type="text" id="name" required placeholder="Enter your name">
+                <input type="text" id="name" name="fullname" required placeholder="Enter your name" autocomplete="name">
               </div>
               <div class="input-group">
                 <label for="phone">Phone Number *</label>
-                <input type="tel" id="phone" required placeholder="+91 9994455723">
+                <input type="tel" id="phone" name="phone" required placeholder="+91 9994455723" pattern="^\+?[0-9]{7,15}$" title="Enter a valid phone number (7-15 digits, optional + prefix)" autocomplete="tel">
               </div>
             </div>
             <div class="form-grid" style="margin-top:16px;">
               <div class="input-group">
                 <label for="email">Email Address</label>
-                <input type="email" id="email" placeholder="user@example.com">
+                <input type="email" id="email" name="email" placeholder="user@example.com" autocomplete="email">
               </div>
               <div class="input-group">
                 <label for="clinic">Select Clinic *</label>
-                <select id="clinic" required>
+                <select id="clinic" name="clinic" required>
                   <option value="" disabled selected>Choose a location...</option>
                   <option value="delhi">Chittaranjan Park, Delhi</option>
                   <option value="faridabad">Sector 85, Faridabad</option>
@@ -698,13 +733,13 @@
             <div class="form-grid" style="margin-top:16px;">
               <div class="input-group">
                 <label for="date">Preferred Date *</label>
-                <input type="date" id="date" required>
+                <input type="date" id="date" name="date" required>
                 <span id="date-error"
                   style="color:var(--coral-deep); font-size:12px; margin-top:4px; display:none;"></span>
               </div>
               <div class="input-group">
                 <label for="service">Service Needed</label>
-                <select id="service">
+                <select id="service" name="service">
                   <option value="" disabled selected>Choose a service...</option>
                   <option value="cosmetic">Cosmetic Dentistry & Smile Makeover</option>
                   <option value="implants">Dental Implants</option>
@@ -719,7 +754,7 @@
             </div>
             <div class="input-group" style="margin-top:16px;">
               <label for="notes">Additional Notes</label>
-              <textarea id="notes" rows="3" placeholder="Any specific concerns or medical history..."></textarea>
+              <textarea id="notes" name="notes" rows="3" placeholder="Any specific concerns or medical history..."></textarea>
             </div>
             <button type="submit" class="btn btn-primary"
               style="width:100%; margin-top:24px; display:flex; justify-content:center; padding:14px;">
@@ -738,8 +773,7 @@
       <div class="foot-grid">
         <div class="foot-col">
           <div class="logo" style="margin-bottom:12px;">
-            <img class="logo-mark" style="object-fit: contain; width: 24px; height: 24px;" src="logo.png"
-              alt="The Dental Home" />
+            <img class="logo-mark" style="object-fit: contain; width: 24px; height: 24px;" src="logo.png" alt="The Dental Home" />
             The Dental Home
           </div>
           <p style="max-width:28ch;">Quality dental care in a warm, welcoming environment.</p>
