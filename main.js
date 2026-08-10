@@ -717,7 +717,6 @@ loadGoogleMapsScript()
   // Route colors per mode
   const MODE_COLORS = {
     driving: { color: '#C96A4A', weight: 5, opacity: 0.85, dashArray: null },
-    walking: { color: '#27AE60', weight: 4, opacity: 0.8, dashArray: '8, 6' },
     bus: { color: '#E67E22', weight: 5, opacity: 0.8, dashArray: null },
     metro: { color: '#8E44AD', weight: 5, opacity: 0.8, dashArray: '12, 8' },
   }
@@ -777,14 +776,12 @@ loadGoogleMapsScript()
         window.userMarker = null
       }
 
-      if (savedUserLat && savedUserLon) {
-        btn.click() // Auto recalc distance for new location
-      }
+
       updateHeaderClinic(name)
     })
   })
 
-  btn.addEventListener('click', calculate)
+
   function updateHeaderClinic(name) {
     const nameEl = document.getElementById('header-loc-name')
     const dotEl = document.getElementById('header-dot')
@@ -923,10 +920,6 @@ loadGoogleMapsScript()
         }
       }
 
-      // === WALKING (estimate from driving) ===
-      const walkDist = drivingDist || straightDist * 1.2
-      const walkTime = (walkDist / 5) * 60 // ~5 km/h walking speed
-      routeData.walking = { dist: walkDist, time: walkTime, straight: true }
 
       // Draw driving route on map
       drawRoute('driving')
@@ -951,8 +944,7 @@ loadGoogleMapsScript()
         const iframe = mapEl.querySelector('iframe')
         if (iframe) {
           let dirflg = 'd'
-          if (mode === 'walking') dirflg = 'w'
-          else if (mode === 'bus' || mode === 'metro') dirflg = 'r'
+          if (mode === 'bus' || mode === 'metro') dirflg = 'r'
           iframe.src = `https://www.google.com/maps?saddr=${savedUserLat},${savedUserLon}&daddr=${CLINIC_LAT},${CLINIC_LNG}&dirflg=${dirflg}&output=embed`
         }
       }
@@ -1185,7 +1177,6 @@ loadGoogleMapsScript()
   // --- Render distance results into the UI ---
   function renderDistanceResults() {
     const driving = routeData.driving
-    const walking = routeData.walking
     let html = ''
 
     if (driving) {
@@ -1194,16 +1185,6 @@ loadGoogleMapsScript()
         <div class="dist-detail">
           <strong>${formatResult(driving.dist, driving.time)}</strong>
           ${driving.straight ? '<span class="dist-speed">~estimate</span>' : ''}
-        </div>
-      </div>`
-    }
-
-    if (walking) {
-      html += `<div class="dist-clickable dist-row" data-mode="walking">
-        <span>🚶 Walking</span>
-        <div class="dist-detail">
-          <strong>${formatResult(walking.dist, walking.time)}</strong>
-          <span class="dist-speed">~estimate</span>
         </div>
       </div>`
     }
