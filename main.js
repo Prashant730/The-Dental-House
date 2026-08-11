@@ -292,6 +292,12 @@ const doctorData = {
       '17 years experience overall',
       '13 years as a specialist',
     ],
+    certifications: [
+      { image: 'male-certificate.jpeg', alt: 'AIIMS Certificate' },
+      { image: 'male-certificate.jpeg', alt: 'Endodontics Masterclass' },
+      { image: 'male-certificate.jpeg', alt: 'Smile Designing Award' },
+      { image: 'male-certificate.jpeg', alt: 'Advanced Dentistry Seminar' }
+    ],
     image: 'doctor-male.jpeg',
   },
   chaurasiya: {
@@ -307,7 +313,13 @@ const doctorData = {
       '11 years as a specialist',
       'Expert in braces and aligners',
     ],
-    image: 'doctor-female.png',
+    certifications: [
+      { image: 'female-certificate.jpeg', alt: 'Orthodontics Excellence' },
+      { image: 'female-certificate.jpeg', alt: 'Clear Aligners Certification' },
+      { image: 'female-certificate.jpeg', alt: 'Braces Masterclass' },
+      { image: 'female-certificate.jpeg', alt: 'Dental Conference Award' }
+    ],
+    image: 'doctor-female.jpg',
   },
 }
 const modal = document.getElementById('doctor-modal')
@@ -317,7 +329,27 @@ const modalRole = document.getElementById('modal-doc-role')
 const modalTag = document.getElementById('modal-doc-tag')
 const modalBio = document.getElementById('modal-bio')
 const modalQualList = document.getElementById('modal-qual-list')
+const modalCarouselContainer = document.getElementById('modal-carousel-container')
+const modalSliderWrapper = document.getElementById('modal-slider-wrapper')
+const modalPrevBtn = document.getElementById('modal-prev-btn')
+const modalNextBtn = document.getElementById('modal-next-btn')
+
 let lastFocused = null
+let activeCarousel = null;
+
+if (modalPrevBtn && modalNextBtn && modalSliderWrapper) {
+  modalPrevBtn.addEventListener('click', () => {
+    modalSliderWrapper.style.transform = 'translateX(0)';
+    modalPrevBtn.style.display = 'none';
+    modalNextBtn.style.display = 'flex';
+  });
+
+  modalNextBtn.addEventListener('click', () => {
+    modalSliderWrapper.style.transform = 'translateX(-50%)';
+    modalNextBtn.style.display = 'none';
+    modalPrevBtn.style.display = 'flex';
+  });
+}
 
 function openDoctorModal(id) {
   const d = doctorData[id]
@@ -343,6 +375,37 @@ function openDoctorModal(id) {
         '</span></li>',
     )
     .join('')
+
+  if (modalSliderWrapper) {
+    modalSliderWrapper.style.transform = 'translateX(0)';
+  }
+  if (modalPrevBtn) modalPrevBtn.style.display = 'none';
+
+  if (activeCarousel) {
+    activeCarousel.destroy();
+    activeCarousel = null;
+  }
+  
+  if (d.certifications && d.certifications.length > 0 && window.DepthCarousel) {
+    modalCarouselContainer.style.display = 'block';
+    if (modalNextBtn) modalNextBtn.style.display = 'flex';
+    setTimeout(() => {
+      activeCarousel = new window.DepthCarousel(modalCarouselContainer, {
+        items: d.certifications,
+        cardWidth: 200,
+        cardHeight: 280,
+        depth: 180,
+        spread: 70,
+        tilt: 20,
+        autoplay: true,
+        autoplayDelay: 2500
+      });
+    }, 50);
+  } else {
+    modalCarouselContainer.style.display = 'none';
+    if (modalNextBtn) modalNextBtn.style.display = 'none';
+  }
+
   lastFocused = document.activeElement
   modal.classList.add('open')
   document.getElementById('modal-close').focus()
@@ -351,6 +414,10 @@ function openDoctorModal(id) {
 function closeDoctorModal() {
   modal.classList.remove('open')
   document.body.style.overflow = ''
+  if (activeCarousel) {
+    activeCarousel.destroy();
+    activeCarousel = null;
+  }
   if (lastFocused) lastFocused.focus()
 }
 document.querySelectorAll('.doctor-card').forEach((card) => {
@@ -1325,7 +1392,7 @@ if (appForm) {
     submitBtn.style.pointerEvents = 'none'
 
     // Open WhatsApp in new tab
-    window.open(whatsappUrl, '_blank')
+    window.open(whatsappUrl, '_blank', 'noopener')
 
     // Update UI
     setTimeout(() => {

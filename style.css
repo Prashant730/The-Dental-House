@@ -1698,3 +1698,26 @@
   }
 }
 
+@media (max-width: 480px) {
+  .hero {
+    padding: 90px 0 70px;
+  }
+  h1 {
+    font-size: 32px;
+  }
+  .modal-panel {
+    max-height: 90vh;
+  }
+  .modal-head {
+    padding: 24px 24px 16px 24px;
+  }
+  .modal-bio {
+    padding: 16px 24px;
+  }
+  .modal-qual-list {
+    padding: 0 24px 24px 24px;
+  }
+  #modal-slider-wrapper .modal-pane {
+    padding: 16px 24px 24px 24px !important;
+  }
+}

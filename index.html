@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com data:; connect-src 'self' https://get.geojs.io https://router.project-osrm.org; frame-src https://www.google.com https://maps.googleapis.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://get.geojs.io https://router.project-osrm.org; frame-src https://www.google.com https://maps.googleapis.com;">
   <meta name="description"
     content="The Dental Home offers expert general, cosmetic, and pediatric dentistry. Book a secure appointment with Dr. Sukhwant Yadav and Dr. Sushma Chaurasiya today.">
   <meta property="og:title" content="The Dental Home — Expert Dentistry">
@@ -20,6 +20,7 @@
   <meta name="google-maps-api-key" content="">
   <title>The Dental Home — Dr.Sukhwant Yadav &amp; Dr. Sushma Chaurasiya</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="DepthCarousel.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- SECURITY NOTE: Subresource Integrity (SRI) hashes cannot be used for Google Fonts CSS because the file is dynamically generated based on the user's browser. -->
@@ -428,7 +429,7 @@
             </svg>View full credentials</p>
         </div>
         <div class="doctor-card" data-doctor="chaurasiya" role="button" tabindex="0" aria-haspopup="dialog">
-          <img class="doctor-avatar" src="doctor-female.png" alt="Dr. Sushma Chaurasia" style="object-fit: cover;">
+          <img class="doctor-avatar" src="doctor-female.jpg" alt="Dr. Sushma Chaurasia" style="object-fit: cover;">
           <p class="doctor-name">Dr. Sushma Chaurasia</p>
           <p class="doctor-role">Dentist, Orthodontist</p>
           <span class="doctor-clinic-tag tag-downtown"><span
@@ -464,13 +465,14 @@
   </div>
 
   <div class="modal-overlay" id="doctor-modal" role="dialog" aria-modal="true" aria-labelledby="modal-doc-name">
-    <div class="modal-panel">
-      <button class="modal-close" id="modal-close" aria-label="Close">
+    <div class="modal-panel" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+      <button class="modal-close" id="modal-close" aria-label="Close" style="position: absolute; top: 24px; right: 24px; z-index: 10;">
         <svg width="15" height="15" viewBox="0 0 15 15">
           <path d="M1 1l13 13M14 1L1 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
         </svg>
       </button>
-      <div class="modal-head">
+      
+      <div class="modal-head" style="padding: 36px 36px 16px 36px; border-bottom: 1px solid var(--line);">
         <div class="modal-avatar" id="modal-avatar"></div>
         <div>
           <p class="doctor-name" id="modal-doc-name"></p>
@@ -478,9 +480,34 @@
           <span class="doctor-clinic-tag" id="modal-doc-tag"></span>
         </div>
       </div>
-      <p class="modal-bio" id="modal-bio"></p>
-      <p class="modal-section-label">Credentials</p>
-      <ul class="modal-qual-list" id="modal-qual-list"></ul>
+
+      <div style="position: relative; flex: 1;">
+        <div id="modal-slider-wrapper" style="display: flex; width: 200%; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+          <!-- Pane 1: Profile -->
+          <div style="width: 50%; padding: 24px 36px 36px 36px; max-height: 60vh; overflow-y: auto;">
+            <p class="modal-bio" id="modal-bio"></p>
+            <p class="modal-section-label">Credentials</p>
+            <ul class="modal-qual-list" id="modal-qual-list"></ul>
+          </div>
+          <!-- Pane 2: Certifications -->
+          <div style="width: 50%; padding: 24px 36px 36px 36px; max-height: 60vh; overflow-y: auto; display: flex; flex-direction: column;">
+            <p class="modal-section-label" style="font-weight: 500; font-size: 14px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 16px;">Certifications & Achievements</p>
+            <div id="modal-carousel-container" style="flex: 1; min-height: 320px; width: 100%;"></div>
+          </div>
+        </div>
+
+        <!-- Navigation Arrows -->
+        <button id="modal-prev-btn" class="modal-nav-btn" aria-label="Previous pane" style="display: none; position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: #fff; border: 1px solid var(--line); box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor: pointer; z-index: 10; justify-content: center; align-items: center;">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <button id="modal-next-btn" class="modal-nav-btn" aria-label="Next pane" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: #fff; border: 1px solid var(--line); box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor: pointer; z-index: 10; display: flex; justify-content: center; align-items: center;">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -797,8 +824,9 @@
     </svg>
   </button>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha384-d+vyQ0dYcymoP8ndq2hW7FGC50nqGdXUEgoOUGxbbkAJwZqL7h+jKN0GGgn9hFDS" crossorigin="anonymous"></script>
+  <script src="DepthCarousel.js" defer></script>
   <script src="main.js" defer></script>
-
 </body>
 
 </html>

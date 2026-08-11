@@ -36,7 +36,7 @@ jobs:
       - name: Prepare deployment folder
         run: |
           mkdir public
-          cp -r *.html *.js *.css *.png *.mp4 *.jpg *.json .nojekyll public/ || true
+          cp -r *.html *.js *.css *.png *.mp4 *.jpg reviews.json .nojekyll public/ || true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
