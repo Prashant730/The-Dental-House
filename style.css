@@ -963,6 +963,129 @@
     background: var(--ivory-deep);
   }
 
+  /* ---- Creative pill nav buttons ---- */
+  .modal-nav-pill {
+    position: absolute;
+    top: 50%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 100px;
+    background: linear-gradient(135deg, var(--rust) 0%, var(--coral) 100%);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    z-index: 10;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(180,90,60,0.35);
+    transition: all 0.3s cubic-bezier(.4,0,.2,1);
+  }
+
+  .modal-nav-prev {
+    left: -16px;
+    transform: translateY(-50%) translateX(0);
+    display: none;
+    animation: nudgeLeft 2s ease-in-out infinite;
+  }
+
+  .modal-nav-next {
+    right: -16px;
+    transform: translateY(-50%) translateX(0);
+    animation: nudgeRight 2s ease-in-out infinite;
+  }
+
+  /* Nudge animations */
+  @keyframes nudgeRight {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    30% { transform: translateY(-50%) translateX(6px); }
+    60% { transform: translateY(-50%) translateX(0); }
+  }
+
+  @keyframes nudgeLeft {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    30% { transform: translateY(-50%) translateX(-6px); }
+    60% { transform: translateY(-50%) translateX(0); }
+  }
+
+  /* Arrow icon bounce */
+  .nav-arrow-icon {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .modal-nav-next .nav-arrow-icon {
+    animation: arrowBounceRight 2s ease-in-out infinite;
+  }
+
+  .modal-nav-prev .nav-arrow-icon {
+    animation: arrowBounceLeft 2s ease-in-out infinite;
+  }
+
+  @keyframes arrowBounceRight {
+    0%, 100% { transform: translateX(0); }
+    30% { transform: translateX(4px); }
+    60% { transform: translateX(0); }
+  }
+
+  @keyframes arrowBounceLeft {
+    0%, 100% { transform: translateX(0); }
+    30% { transform: translateX(-4px); }
+    60% { transform: translateX(0); }
+  }
+
+  /* Ripple ring */
+  .nav-ripple {
+    position: absolute;
+    inset: -4px;
+    border-radius: 100px;
+    border: 2px solid var(--rust);
+    opacity: 0;
+    animation: rippleRing 2.4s ease-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes rippleRing {
+    0% { inset: -2px; opacity: 0.6; }
+    100% { inset: -14px; opacity: 0; }
+  }
+
+  .nav-label {
+    white-space: nowrap;
+  }
+
+  /* Hover */
+  .modal-nav-pill:hover {
+    background: linear-gradient(135deg, var(--coral-deep) 0%, var(--rust) 100%);
+    box-shadow: 0 8px 32px rgba(180,90,60,0.5);
+    animation: none;
+    transform: translateY(-50%) scale(1.06);
+  }
+
+  .modal-nav-pill:hover .nav-arrow-icon {
+    animation: none;
+  }
+
+  .modal-nav-pill:hover .nav-ripple {
+    animation: none;
+    opacity: 0;
+  }
+
+  /* Mobile: hide labels, shrink to circle */
+  @media (max-width: 640px) {
+    .modal-nav-pill {
+      padding: 12px;
+      border-radius: 50%;
+    }
+    .nav-label { display: none; }
+    .modal-nav-prev { left: 8px; }
+    .modal-nav-next { right: 8px; }
+  }
+
   .modal-head {
     display: flex;
     align-items: center;
