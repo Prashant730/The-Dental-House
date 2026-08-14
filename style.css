@@ -725,41 +725,77 @@
   /* ---------- services ---------- */
   .svc-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1px;
     background: var(--line);
     border: 1px solid var(--line);
-    border-radius: var(--radius-md);
+    border-radius: 18px;
     overflow: hidden;
+    margin-top: 42px;
   }
 
   .svc-card {
-    background: var(--ivory);
-    padding: 28px 24px;
-    transition: background .2s, transform .2s, box-shadow .2s;
+    background: #fff;
+    padding: 32px 28px 30px;
+    transition: background 0.25s ease, transform 0.25s ease;
     position: relative;
   }
 
   .svc-card:hover {
-    background: #fff;
-    transform: translateY(-3px);
-    box-shadow: 0 16px 30px -22px rgba(46, 46, 46, .3);
-    z-index: 1;
+    background: #FBFDFC;
   }
 
+  .svc-badge {
+    width: 54px; height: 54px;
+    background: var(--rust-tint);
+    border-radius: 50% 50% 44% 44% / 58% 58% 42% 42%;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.25s ease;
+    margin-bottom: 22px;
+  }
+  .svc-card:hover .svc-badge { background: var(--rust); }
+  .svc-badge svg { stroke: var(--rust); transition: stroke 0.25s ease; }
+  .svc-card:hover .svc-badge svg { stroke: #fff; }
 
-  .svc-icon {
-    width: 34px;
-    height: 34px;
-    margin-bottom: 18px;
-    color: var(--rust);
+  .svc-card h3 {
+    font-weight: 500;
+    margin-bottom: 10px;
   }
 
   .svc-card p.desc {
     color: var(--ink-soft);
-    font-size: 14px;
-    margin-top: 8px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin-bottom: 18px;
   }
+
+  .svc-learn {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--rust);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .svc-learn svg { width: 13px; height: 13px; transition: transform 0.2s ease; }
+  .svc-card:hover .svc-learn svg { transform: translateX(3px); }
+
+  /* CTA card */
+  .svc-card.cta {
+    background: var(--coral);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .svc-card.cta .svc-badge { background: rgba(255, 255, 255, 0.18); }
+  .svc-card.cta .svc-badge svg { stroke: #fff; }
+  .svc-card.cta:hover { background: var(--coral-deep); }
+  .svc-card.cta:hover .svc-badge { background: rgba(255, 255, 255, 0.28); }
+  .svc-card.cta h3 { color: #fff; }
+  .svc-card.cta p.desc { color: rgba(255, 255, 255, 0.86); margin-bottom: 18px; }
+  .svc-card.cta .svc-learn { color: #fff; }
 
   /* ---------- team ---------- */
   .team-grid {
@@ -1681,6 +1717,12 @@
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+}
+
+@media (max-width: 560px) {
+  .svc-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 #scroll-to-top:hover {

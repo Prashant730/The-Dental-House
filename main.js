@@ -478,7 +478,7 @@ function closeServiceModal() {
   if (lastServiceFocused) lastServiceFocused.focus()
 }
 
-document.querySelectorAll('.svc-card').forEach((card) => {
+document.querySelectorAll('.svc-card:not(.cta)').forEach((card) => {
   card.setAttribute('role', 'button')
   card.setAttribute('tabindex', '0')
   card.style.cursor = 'pointer'
