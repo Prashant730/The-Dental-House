@@ -98,7 +98,7 @@ const Services = () => {
               <path d="M1 1l13 13M14 1L1 14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
             </svg>
           </button>
-          <img id="modal-service-img" src="" alt="Service Photo" style={{ width: '100%', height: 'auto', maxHeight: '400px', objectFit: 'contain', display: 'block', background: 'var(--ivory-deep)' }} />
+          <img id="modal-service-img" src={null} alt="Service Photo" style={{ width: '100%', height: 'auto', maxHeight: '400px', objectFit: 'contain', display: 'block', background: 'var(--ivory-deep)' }} />
           <div style={{ padding: '28px 24px' }}>
             <h3 id="modal-service-name" style={{ marginBottom: '12px', fontSize: '24px' }}></h3>
             <p id="modal-service-desc" style={{ color: 'var(--ink-soft)', fontSize: '15px', lineHeight: '1.6' }}></p>
@@ -110,3 +110,4 @@ const Services = () => {
 };
 
 export default Services;
+
