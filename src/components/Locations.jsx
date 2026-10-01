@@ -1,7 +1,55 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
 
 const Locations = () => {
   const [activeClinic, setActiveClinic] = useState('delhi');
+
+  // Update map when clinic tab changes
+  useEffect(() => {
+    const activeInfo = document.getElementById('info-' + activeClinic);
+    if (!activeInfo) return;
+
+    const lat = parseFloat(activeInfo.getAttribute('data-lat'));
+    const lng = parseFloat(activeInfo.getAttribute('data-lng'));
+    const name = activeInfo.getAttribute('data-name');
+
+    if (window.clinicMap && window.clinicMarker) {
+      window.clinicMap.setCenter({ lat, lng });
+      window.clinicMap.setZoom(14);
+      if (typeof window.clinicMarker.setPosition === 'function') {
+        window.clinicMarker.setPosition({ lat, lng });
+        window.clinicMarker.setTitle(name);
+      } else if (window.clinicMarker.position) {
+        window.clinicMarker.position = { lat, lng };
+        window.clinicMarker.title = name;
+      }
+    } else {
+      const mapEl = document.getElementById('leaflet-map');
+      if (mapEl) {
+        const iframe = mapEl.querySelector('iframe');
+        if (iframe) {
+          iframe.src = 'https://www.google.com/maps?q=' + encodeURIComponent(name) + '&z=14&output=embed';
+        }
+      }
+    }
+
+    // Clear old routes
+    if (window.routePolyline) {
+      window.routePolyline.setMap(null);
+      window.routePolyline = null;
+    }
+    if (window.userMarker) {
+      if (typeof window.userMarker.setMap === 'function') {
+        window.userMarker.setMap(null);
+      }
+      window.userMarker = null;
+    }
+
+    // Update header clinic name
+    const nameEl = document.getElementById('header-loc-name');
+    if (nameEl) {
+      nameEl.textContent = name.includes('Faridabad') ? 'Faridabad' : 'CR Park';
+    }
+  }, [activeClinic]);
 
   return (
     <section id="locations" style={{ background: 'var(--ivory-deep)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
@@ -130,4 +178,5 @@ const Locations = () => {
 };
 
 export default Locations;
+
 
