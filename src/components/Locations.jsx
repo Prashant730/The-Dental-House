@@ -18,13 +18,13 @@ const Locations = () => {
 
         <div className="loc-tabs reveal" style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '24px' }}>
           <button
-            className={tn clinic-tab }
+            className={"btn clinic-tab " + (activeClinic === "delhi" ? "btn-primary active" : "btn-ghost")}
             onClick={() => setActiveClinic('delhi')}
           >
             Chittaranjan Park, Delhi
           </button>
           <button
-            className={tn clinic-tab }
+            className={"btn clinic-tab " + (activeClinic === "faridabad" ? "btn-primary active" : "btn-ghost")}
             onClick={() => setActiveClinic('faridabad')}
           >
             Sector 85, Faridabad
@@ -130,3 +130,4 @@ const Locations = () => {
 };
 
 export default Locations;
+
