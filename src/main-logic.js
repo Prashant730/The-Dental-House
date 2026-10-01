@@ -724,7 +724,7 @@ function loadGoogleMapsScript() {
       mapEl.innerHTML = `
         <iframe
           title="The Dental Home location on Google Maps"
-          src="https://www.google.com/maps?q=The%20Dental%20Home%20Chittaranjan%20Park%20Delhi&z=14&output=embed"
+          src="https://www.google.com/maps?q=28.5396,77.2477&z=15&output=embed"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
           style="border:0; width:100%; height:100%;"
@@ -800,21 +800,26 @@ loadGoogleMapsScript()
   const tabs = document.querySelectorAll('.clinic-tab')
   tabs.forEach((tab) => {
     tab.addEventListener('click', (e) => {
-      tabs.forEach((t) => t.classList.remove('btn-primary', 'active'))
-      tabs.forEach((t) => t.classList.add('btn-ghost'))
-      e.target.classList.remove('btn-ghost')
-      e.target.classList.add('btn-primary', 'active')
+      const btn = e.target.closest('.clinic-tab') || tab
+      tabs.forEach((t) => {
+        t.classList.remove('btn-primary', 'active')
+        t.classList.add('btn-ghost')
+      })
+      btn.classList.remove('btn-ghost')
+      btn.classList.add('btn-primary', 'active')
 
-      const targetId = e.target.getAttribute('data-target')
+      const targetId = btn.getAttribute('data-target')
+      if (!targetId) return
+
       document.querySelectorAll('.loc-info').forEach((info) => {
         info.style.display = 'none'
       })
       const activeInfo = document.getElementById('info-' + targetId)
-      activeInfo.style.display = '' // revert to flex
+      if (activeInfo) activeInfo.style.display = '' // revert to flex
 
-      CLINIC_LAT = parseFloat(activeInfo.getAttribute('data-lat'))
-      CLINIC_LNG = parseFloat(activeInfo.getAttribute('data-lng'))
-      const name = activeInfo.getAttribute('data-name')
+      CLINIC_LAT = (activeInfo && parseFloat(activeInfo.getAttribute('data-lat'))) || (targetId === 'faridabad' ? 28.40478 : 28.5396)
+      CLINIC_LNG = (activeInfo && parseFloat(activeInfo.getAttribute('data-lng'))) || (targetId === 'faridabad' ? 77.35598 : 77.2477)
+      const name = (activeInfo && activeInfo.getAttribute('data-name')) || (targetId === 'faridabad' ? 'The Dental Home - Faridabad' : 'The Dental Home Chittaranjan Park Delhi')
 
       if (window.clinicMap && window.clinicMarker) {
         window.clinicMap.setCenter({ lat: CLINIC_LAT, lng: CLINIC_LNG })
@@ -831,7 +836,9 @@ loadGoogleMapsScript()
         if (mapEl) {
           const iframe = mapEl.querySelector('iframe')
           if (iframe) {
-            iframe.src = `https://www.google.com/maps?q=${encodeURIComponent(name)}&z=14&output=embed`
+            iframe.src = `https://www.google.com/maps?q=${CLINIC_LAT},${CLINIC_LNG}&z=15&output=embed`
+          } else {
+            mapEl.innerHTML = `<iframe title="The Dental Home location on Google Maps" src="https://www.google.com/maps?q=${CLINIC_LAT},${CLINIC_LNG}&z=15&output=embed" style="border:0; width:100%; height:100%;"></iframe>`
           }
         }
       }
@@ -842,10 +849,11 @@ loadGoogleMapsScript()
         window.routePolyline = null
       }
       if (window.userMarker) {
-        window.userMarker.setMap(null)
+        if (typeof window.userMarker.setMap === 'function') {
+          window.userMarker.setMap(null)
+        }
         window.userMarker = null
       }
-
 
       updateHeaderClinic(name)
     })
@@ -853,9 +861,10 @@ loadGoogleMapsScript()
 
 
   function updateHeaderClinic(name) {
+    if (!name) return
     const nameEl = document.getElementById('header-loc-name')
     const dotEl = document.getElementById('header-dot')
-    const isFbd = name.includes('Faridabad')
+    const isFbd = typeof name === 'string' && name.includes('Faridabad')
     if (nameEl) {
       nameEl.textContent = isFbd ? 'Faridabad Clinic' : 'CR Park Clinic'
     }

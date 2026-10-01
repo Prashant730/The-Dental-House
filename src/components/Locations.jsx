@@ -1,54 +1,111 @@
-﻿import React, { useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect } from 'react';
+
+const CLINICS = {
+  delhi: {
+    id: 'delhi',
+    name: 'The Dental Home Chittaranjan Park Delhi',
+    headerName: 'CR Park Clinic',
+    lat: 28.5396,
+    lng: 77.2477,
+    address: 'G-1422 Market No. 2, Chittaranjan Park, New Delhi, 110019',
+    hours: 'Thu-Tue, 11:00-19:00',
+    closed: 'Wed Closed',
+    phone: '+91 8264001306',
+    doctors: 'Dr. Sukhwant Yadav & Dr. Sushma Chaurasiya',
+    mapSrc: 'https://www.google.com/maps?q=28.5396,77.2477&z=15&output=embed'
+  },
+  faridabad: {
+    id: 'faridabad',
+    name: 'The Dental Home - Faridabad',
+    headerName: 'Faridabad Clinic',
+    lat: 28.40478,
+    lng: 77.35598,
+    address: 'Shop no. 36, First Floor, Amolik Sankalp, Sector 85, Faridabad, Haryana',
+    hours: 'Wed-Mon, 17:00-21:00',
+    closed: 'Tue Closed',
+    phone: '+91 8264001306',
+    doctors: 'Dr. Sukhwant Yadav & Dr. Sushma Chaurasiya',
+    mapSrc: 'https://www.google.com/maps?q=28.40478,77.35598&z=15&output=embed'
+  }
+};
 
 const Locations = () => {
   const [activeClinic, setActiveClinic] = useState('delhi');
 
-  // Update map when clinic tab changes
-  useEffect(() => {
-    const activeInfo = document.getElementById('info-' + activeClinic);
-    if (!activeInfo) return;
+  const updateClinicUI = (clinicId) => {
+    try {
+      const clinic = CLINICS[clinicId] || CLINICS.delhi;
+      const isFbd = clinic.id === 'faridabad';
 
-    const lat = parseFloat(activeInfo.getAttribute('data-lat'));
-    const lng = parseFloat(activeInfo.getAttribute('data-lng'));
-    const name = activeInfo.getAttribute('data-name');
-
-    if (window.clinicMap && window.clinicMarker) {
-      window.clinicMap.setCenter({ lat, lng });
-      window.clinicMap.setZoom(14);
-      if (typeof window.clinicMarker.setPosition === 'function') {
-        window.clinicMarker.setPosition({ lat, lng });
-        window.clinicMarker.setTitle(name);
-      } else if (window.clinicMarker.position) {
-        window.clinicMarker.position = { lat, lng };
-        window.clinicMarker.title = name;
-      }
-    } else {
-      const mapEl = document.getElementById('leaflet-map');
-      if (mapEl) {
-        const iframe = mapEl.querySelector('iframe');
-        if (iframe) {
-          iframe.src = 'https://www.google.com/maps?q=' + encodeURIComponent(name) + '&z=14&output=embed';
+      // 1. Google Maps JS API (if loaded)
+      if (window.clinicMap && window.clinicMarker) {
+        window.clinicMap.setCenter({ lat: clinic.lat, lng: clinic.lng });
+        window.clinicMap.setZoom(14);
+        if (typeof window.clinicMarker.setPosition === 'function') {
+          window.clinicMarker.setPosition({ lat: clinic.lat, lng: clinic.lng });
+          window.clinicMarker.setTitle(clinic.name);
+        } else if (window.clinicMarker.position) {
+          window.clinicMarker.position = { lat: clinic.lat, lng: clinic.lng };
+          window.clinicMarker.title = clinic.name;
+        }
+      } else {
+        // Fallback Google Maps iframe
+        const mapEl = document.getElementById('leaflet-map');
+        if (mapEl) {
+          const iframe = mapEl.querySelector('iframe');
+          if (iframe) {
+            iframe.src = clinic.mapSrc;
+          }
         }
       }
-    }
 
-    // Clear old routes
-    if (window.routePolyline) {
-      window.routePolyline.setMap(null);
-      window.routePolyline = null;
-    }
-    if (window.userMarker) {
-      if (typeof window.userMarker.setMap === 'function') {
-        window.userMarker.setMap(null);
+      // 2. Clear old routes
+      if (window.routePolyline) {
+        window.routePolyline.setMap(null);
+        window.routePolyline = null;
       }
-      window.userMarker = null;
-    }
+      if (window.userMarker) {
+        if (typeof window.userMarker.setMap === 'function') {
+          window.userMarker.setMap(null);
+        }
+        window.userMarker = null;
+      }
 
-    // Update header clinic name
-    const nameEl = document.getElementById('header-loc-name');
-    if (nameEl) {
-      nameEl.textContent = name.includes('Faridabad') ? 'Faridabad' : 'CR Park';
+      // 3. Update header clinic badge & status dot
+      const nameEl = document.getElementById('header-loc-name');
+      const dotEl = document.getElementById('header-dot');
+      if (nameEl) {
+        nameEl.textContent = clinic.headerName;
+      }
+      if (dotEl) {
+        const now = new Date();
+        const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+        const ist = new Date(utc + 3600000 * 5.5);
+        const hours = ist.getHours();
+        const day = ist.getDay();
+
+        let isOpen = false;
+        if (isFbd) {
+          if (day !== 2 && hours >= 17 && hours < 21) isOpen = true;
+        } else {
+          if (day !== 3 && hours >= 11 && hours < 19) isOpen = true;
+        }
+
+        dotEl.style.backgroundColor = isOpen ? '#27AE60' : '#E74C3C';
+        dotEl.title = isOpen ? 'Clinic is currently open' : 'Clinic is currently closed';
+      }
+    } catch (err) {
+      console.warn('Error updating clinic UI:', err);
     }
+  };
+
+  const handleClinicChange = (clinicId) => {
+    setActiveClinic(clinicId);
+    updateClinicUI(clinicId);
+  };
+
+  useEffect(() => {
+    updateClinicUI(activeClinic);
   }, [activeClinic]);
 
   return (
@@ -66,22 +123,31 @@ const Locations = () => {
 
         <div className="loc-tabs reveal" style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '24px' }}>
           <button
-            className={"btn clinic-tab " + (activeClinic === "delhi" ? "btn-primary active" : "btn-ghost")}
-            onClick={() => setActiveClinic('delhi')}
+            className={'btn clinic-tab ' + (activeClinic === 'delhi' ? 'btn-primary active' : 'btn-ghost')}
+            data-target="delhi"
+            onClick={() => handleClinicChange('delhi')}
           >
             Chittaranjan Park, Delhi
           </button>
           <button
-            className={"btn clinic-tab " + (activeClinic === "faridabad" ? "btn-primary active" : "btn-ghost")}
-            onClick={() => setActiveClinic('faridabad')}
+            className={'btn clinic-tab ' + (activeClinic === 'faridabad' ? 'btn-primary active' : 'btn-ghost')}
+            data-target="faridabad"
+            onClick={() => handleClinicChange('faridabad')}
           >
             Sector 85, Faridabad
           </button>
         </div>
 
-        <div className="loc-panel active reveal" id="panel-clinic">
+        <div className="loc-panel active reveal" id="panel-clinic" data-clinic="clinic">
           {/* Delhi Clinic */}
-          <div className="loc-info" id="info-delhi" style={{ display: activeClinic === 'delhi' ? 'flex' : 'none' }}>
+          <div
+            className="loc-info"
+            id="info-delhi"
+            data-lat="28.5396"
+            data-lng="77.2477"
+            data-name="The Dental Home Chittaranjan Park Delhi"
+            style={{ display: activeClinic === 'delhi' ? 'flex' : 'none' }}
+          >
             <div className="loc-row">
               <svg viewBox="0 0 24 24" fill="none">
                 <path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z" stroke="currentColor" strokeWidth="1.5" />
@@ -125,7 +191,14 @@ const Locations = () => {
           </div>
 
           {/* Faridabad Clinic */}
-          <div className="loc-info" id="info-faridabad" style={{ display: activeClinic === 'faridabad' ? 'flex' : 'none' }}>
+          <div
+            className="loc-info"
+            id="info-faridabad"
+            data-lat="28.40478"
+            data-lng="77.35598"
+            data-name="The Dental Home - Faridabad"
+            style={{ display: activeClinic === 'faridabad' ? 'flex' : 'none' }}
+          >
             <div className="loc-row">
               <svg viewBox="0 0 24 24" fill="none">
                 <path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z" stroke="currentColor" strokeWidth="1.5" />
@@ -169,7 +242,13 @@ const Locations = () => {
           </div>
 
           <div className="loc-map">
-            <div id="leaflet-map" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 1 }}></div>
+            <div id="leaflet-map" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 1 }}>
+              <iframe
+                title="The Dental Home location on Google Maps"
+                src={CLINICS[activeClinic]?.mapSrc || CLINICS.delhi.mapSrc}
+                style={{ border: 0, width: '100%', height: '100%' }}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -178,5 +257,3 @@ const Locations = () => {
 };
 
 export default Locations;
-
-
