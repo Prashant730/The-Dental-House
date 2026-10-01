@@ -21,6 +21,11 @@
   },
   "homepage": "https://github.com/Prashant730/The-Dental-House#readme",
   "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.0",
     "vite": "^8.2.1"
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   }
 }
