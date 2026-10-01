@@ -21,7 +21,7 @@ const Footer = () => {
             <div className="foot-col">
               <p style={{ color: 'var(--ink)', fontWeight: 500 }}>Doctors</p>
               <p>Dr.Sukhwant Yadav</p>
-              <p>Dr. Sushma Chaurasiya</p>
+              <p>Dr. Sushma Chaurasia</p>
             </div>
             <div className="foot-col">
               <p style={{ color: 'var(--ink)', fontWeight: 500 }}>Site</p>

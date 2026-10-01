@@ -537,7 +537,7 @@ window.addEventListener(
 // testimonial carousel
 async function loadReviews() {
   const container = document.getElementById('reviews-container')
-  if (!container) return
+  if (!container || container.querySelector('.t-slide')) return
 
   try {
     const res = await fetch('reviews.json')
