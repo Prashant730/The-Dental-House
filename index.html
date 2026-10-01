@@ -3,12 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" id="viewport-meta" content="width=device-width, initial-scale=1.0">
-  <script>
-    if (/Mobi|Android/i.test(navigator.userAgent) && Math.min(window.screen.width, window.screen.height) < 768) {
-      document.getElementById('viewport-meta').setAttribute('content', 'width=1024');
-    }
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="Content-Security-Policy"
     content="default-src 'self'; base-uri 'self'; form-action 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://get.geojs.io https://router.project-osrm.org; frame-src https://www.google.com https://maps.googleapis.com;">
   <meta name="description"
@@ -41,4 +36,5 @@
 </body>
 
 </html>
+
 
