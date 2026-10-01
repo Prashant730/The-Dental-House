@@ -1,6 +1,8 @@
-﻿import React from 'react';
+﻿import React, { useState } from 'react';
 
 const Locations = () => {
+  const [activeClinic, setActiveClinic] = useState('delhi');
+
   return (
     <section id="locations" style={{ background: 'var(--ivory-deep)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
       <div className="wrap">
@@ -10,21 +12,28 @@ const Locations = () => {
             <h2>Our clinics</h2>
           </div>
           <p className="lede" style={{ maxWidth: '80ch' }}>
-            Welcome to The Dental Home
-            Established in 2016, The Dental Home is a trusted dental practice with clinics in Chittaranjan Park, New Delhi, and Faridabad, Haryana. Led by two AIIMS, New Delhi-trained specialist dentists with experience at India's premier dental institutes, we are committed to delivering high-quality, evidence-based dental care.
-            Our philosophy is simple—warmth, transparency, personalised care, and clinical excellence. By offering dedicated appointments, maintaining the highest standards of hygiene and sterilization, and using modern dental techniques, we ensure every patient receives safe, comfortable, and effective treatment.
-            At The Dental Home, we're committed to helping you achieve a healthy, confident smile in an environment where you always feel cared for and informed.
+            Welcome to The Dental Home — Established in 2016, The Dental Home is a trusted dental practice with clinics in Chittaranjan Park, New Delhi, and Faridabad, Haryana. Led by two AIIMS, New Delhi-trained specialist dentists, we are committed to delivering high-quality, evidence-based dental care.
           </p>
         </div>
 
         <div className="loc-tabs reveal" style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '24px' }}>
-          <button className="btn btn-primary clinic-tab active" data-target="delhi">Chittaranjan Park, Delhi</button>
-          <button className="btn btn-ghost clinic-tab" data-target="faridabad">Sector 85, Faridabad</button>
+          <button
+            className={tn clinic-tab }
+            onClick={() => setActiveClinic('delhi')}
+          >
+            Chittaranjan Park, Delhi
+          </button>
+          <button
+            className={tn clinic-tab }
+            onClick={() => setActiveClinic('faridabad')}
+          >
+            Sector 85, Faridabad
+          </button>
         </div>
 
-        <div className="loc-panel active reveal" id="panel-clinic" data-clinic="clinic">
+        <div className="loc-panel active reveal" id="panel-clinic">
           {/* Delhi Clinic */}
-          <div className="loc-info" id="info-delhi" data-lat="28.5396" data-lng="77.2477" data-name="The Dental Home Chittaranjan Park Delhi">
+          <div className="loc-info" id="info-delhi" style={{ display: activeClinic === 'delhi' ? 'flex' : 'none' }}>
             <div className="loc-row">
               <svg viewBox="0 0 24 24" fill="none">
                 <path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z" stroke="currentColor" strokeWidth="1.5" />
@@ -68,7 +77,7 @@ const Locations = () => {
           </div>
 
           {/* Faridabad Clinic */}
-          <div className="loc-info" id="info-faridabad" style={{ display: 'none' }} data-lat="28.40478" data-lng="77.35598" data-name="The Dental Home - Faridabad">
+          <div className="loc-info" id="info-faridabad" style={{ display: activeClinic === 'faridabad' ? 'flex' : 'none' }}>
             <div className="loc-row">
               <svg viewBox="0 0 24 24" fill="none">
                 <path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z" stroke="currentColor" strokeWidth="1.5" />
@@ -110,6 +119,7 @@ const Locations = () => {
             </div>
             <a href="#book" className="btn btn-primary" style={{ marginTop: '8px', width: 'fit-content' }}>Book appointment</a>
           </div>
+
           <div className="loc-map">
             <div id="leaflet-map" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 1 }}></div>
           </div>
@@ -120,4 +130,3 @@ const Locations = () => {
 };
 
 export default Locations;
-
