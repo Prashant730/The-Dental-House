@@ -296,12 +296,12 @@ const doctorData = {
       '13 years as a specialist',
     ],
     certifications: [
-      { image: 'assets/male-certificate.jpeg', alt: 'AIIMS Certificate' },
-      { image: 'assets/male-certificate.jpeg', alt: 'Endodontics Masterclass' },
-      { image: 'assets/male-certificate.jpeg', alt: 'Smile Designing Award' },
-      { image: 'assets/male-certificate.jpeg', alt: 'Advanced Dentistry Seminar' }
+      { image: '/assets/male-certificate.jpeg', alt: 'AIIMS Certificate' },
+      { image: '/assets/male-certificate.jpeg', alt: 'Endodontics Masterclass' },
+      { image: '/assets/male-certificate.jpeg', alt: 'Smile Designing Award' },
+      { image: '/assets/male-certificate.jpeg', alt: 'Advanced Dentistry Seminar' }
     ],
-    image: 'assets/doctor-male.jpeg',
+    image: '/assets/doctor-male.jpeg',
   },
   chaurasiya: {
     name: 'Dr. Sushma Chaurasia',
@@ -317,12 +317,12 @@ const doctorData = {
       'Expert in braces and aligners',
     ],
     certifications: [
-      { image: 'assets/female-certificate.jpeg', alt: 'Orthodontics Excellence' },
-      { image: 'assets/female-certificate.jpeg', alt: 'Clear Aligners Certification' },
-      { image: 'assets/female-certificate.jpeg', alt: 'Braces Masterclass' },
-      { image: 'assets/female-certificate.jpeg', alt: 'Dental Conference Award' }
+      { image: '/assets/female-certificate.jpeg', alt: 'Orthodontics Excellence' },
+      { image: '/assets/female-certificate.jpeg', alt: 'Clear Aligners Certification' },
+      { image: '/assets/female-certificate.jpeg', alt: 'Braces Masterclass' },
+      { image: '/assets/female-certificate.jpeg', alt: 'Dental Conference Award' }
     ],
-    image: 'assets/doctor-female.jpg',
+    image: '/assets/doctor-female.jpg',
   },
 }
 const modal = document.getElementById('doctor-modal')
@@ -450,14 +450,14 @@ const serviceModalName = document.getElementById('modal-service-name')
 const serviceModalDesc = document.getElementById('modal-service-desc')
 
 const serviceImages = {
-  'General & Preventive Dentistry': 'assets/service-general.jpg',
-  'Restorative Dentistry & Fillings': 'assets/service-restorative.jpg',
-  'Root Canal Treatment': 'assets/Root.jpeg',
-  'Cosmetic Dentistry & Smile Makeover': 'assets/Cosmetic Dentistry & Smile Makeover.jpeg',
-  'Orthodontic Treatment': 'assets/Orthodontic Treatment.jpeg',
-  'Dental Implant': 'assets/Dental Implant.jpeg',
-  'Crown & Bridge': 'assets/Crown & Bridge.jpeg',
-  'Oral Surgery': 'assets/service-surgery.jpg',
+  'General & Preventive Dentistry': '/assets/service-general.jpg',
+  'Restorative Dentistry & Fillings': '/assets/service-restorative.jpg',
+  'Root Canal Treatment': '/assets/Root.jpeg',
+  'Cosmetic Dentistry & Smile Makeover': '/assets/Cosmetic Dentistry & Smile Makeover.jpeg',
+  'Orthodontic Treatment': '/assets/Orthodontic Treatment.jpeg',
+  'Dental Implant': '/assets/Dental Implant.jpeg',
+  'Crown & Bridge': '/assets/Crown & Bridge.jpeg',
+  'Oral Surgery': '/assets/service-surgery.jpg',
 }
 
 
@@ -1506,3 +1506,4 @@ if (scrollToTopBtn) {
 })()
 
 }
+

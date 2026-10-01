@@ -5,7 +5,7 @@ const Hero = () => {
     <>
       <section className="hero">
         <video id="hero-video" preload="auto" autoPlay muted loop playsInline>
-          <source src="assets/hero-background.mp4" type="video/mp4" />
+          <source src="/assets/hero-background.mp4" type="video/mp4" />
         </video>
         <div className="hero-overlay"></div>
         <div className="watermark-cover" id="teeth-scene">
@@ -217,3 +217,4 @@ const Hero = () => {
 };
 
 export default Hero;
+

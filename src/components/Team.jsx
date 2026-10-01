@@ -14,7 +14,7 @@ const Team = () => {
           </div>
           <div className="team-grid reveal">
             <div className="doctor-card" data-doctor="yadav" role="button" tabIndex="0" aria-haspopup="dialog">
-              <img className="doctor-avatar" src="assets/doctor-male.jpeg" alt="Dr. Sukhwant Singh Yadav" style={{ objectFit: 'cover' }} />
+              <img className="doctor-avatar" src="/assets/doctor-male.jpeg" alt="Dr. Sukhwant Singh Yadav" style={{ objectFit: 'cover' }} />
               <p className="doctor-name">Dr. Sukhwant Singh Yadav</p>
               <p className="doctor-role">Endodontist, Dentist</p>
               <span className="doctor-clinic-tag tag-downtown">
@@ -35,7 +35,7 @@ const Team = () => {
               </p>
             </div>
             <div className="doctor-card" data-doctor="chaurasiya" role="button" tabIndex="0" aria-haspopup="dialog">
-              <img className="doctor-avatar" src="assets/doctor-female.jpg" alt="Dr. Sushma Chaurasia" style={{ objectFit: 'cover' }} />
+              <img className="doctor-avatar" src="/assets/doctor-female.jpg" alt="Dr. Sushma Chaurasia" style={{ objectFit: 'cover' }} />
               <p className="doctor-name">Dr. Sushma Chaurasia</p>
               <p className="doctor-role">Dentist, Orthodontist</p>
               <span className="doctor-clinic-tag tag-downtown">
@@ -116,3 +116,4 @@ const Team = () => {
 };
 
 export default Team;
+

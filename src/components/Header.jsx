@@ -7,7 +7,7 @@ const Header = () => {
         <div className="nav-inner">
           <a href="#" style={{ textDecoration: 'none' }}>
             <div className="logo">
-              <img className="logo-mark" style={{ objectFit: 'contain', width: '30px', height: '30px' }} src="assets/logo.png" alt="The Dental Home" />
+              <img className="logo-mark" style={{ objectFit: 'contain', width: '30px', height: '30px' }} src="/assets/logo.png" alt="The Dental Home" />
               The Dental Home
             </div>
           </a>
@@ -35,7 +35,7 @@ const Header = () => {
         <div className="mobile-nav-panel">
           <div className="mobile-nav-header">
             <div className="logo">
-              <img className="logo-mark" style={{ objectFit: 'contain', width: '24px', height: '24px' }} src="assets/logo.png" alt="The Dental Home" />
+              <img className="logo-mark" style={{ objectFit: 'contain', width: '24px', height: '24px' }} src="/assets/logo.png" alt="The Dental Home" />
               The Dental Home
             </div>
             <button className="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">
@@ -59,3 +59,4 @@ const Header = () => {
 };
 
 export default Header;
+

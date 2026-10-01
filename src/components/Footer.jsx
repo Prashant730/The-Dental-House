@@ -8,7 +8,7 @@ const Footer = () => {
           <div className="foot-grid">
             <div className="foot-col">
               <div className="logo" style={{ marginBottom: '12px' }}>
-                <img className="logo-mark" style={{ objectFit: 'contain', width: '24px', height: '24px' }} src="assets/logo.png" alt="The Dental Home" />
+                <img className="logo-mark" style={{ objectFit: 'contain', width: '24px', height: '24px' }} src="/assets/logo.png" alt="The Dental Home" />
                 The Dental Home
               </div>
               <p style={{ maxWidth: '28ch' }}>Quality dental care in a warm, welcoming environment.</p>
@@ -51,3 +51,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
