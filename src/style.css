@@ -1243,6 +1243,18 @@
     min-height: 300px;
   }
 
+  .map-directions-badge {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background 0.2s ease !important;
+  }
+  .map-directions-badge:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22) !important;
+    background: #ffffff !important;
+  }
+  .loc-map:hover .map-directions-badge {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22) !important;
+  }
+
   .loc-map iframe {
     position: absolute;
     inset: 0;

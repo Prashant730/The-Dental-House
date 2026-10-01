@@ -369,9 +369,17 @@
   }
 
   .loc-map {
-    min-height: 200px !important;
+    min-height: 220px !important;
     border-radius: 0 0 16px 16px !important;
     overflow: hidden !important;
+  }
+
+  .map-directions-badge {
+    font-size: 11.5px !important;
+    padding: 8px 12px !important;
+    bottom: 10px !important;
+    left: 10px !important;
+    max-width: calc(100% - 20px) !important;
   }
 
   /* Distance calculator */

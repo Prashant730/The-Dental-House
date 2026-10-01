@@ -8,11 +8,12 @@ const CLINICS = {
     lat: 28.5396,
     lng: 77.2477,
     address: 'G-1422 Market No. 2, Chittaranjan Park, New Delhi, 110019',
-    hours: 'Thu-Tue, 11:00-19:00',
+    hours: 'Thu–Tue, 11:00–19:00',
     closed: 'Wed Closed',
     phone: '+91 8264001306',
     doctors: 'Dr. Sukhwant Yadav & Dr. Sushma Chaurasiya',
-    mapSrc: 'https://www.google.com/maps?q=28.5396,77.2477&z=15&output=embed'
+    mapSrc: 'https://www.google.com/maps?q=28.5396,77.2477&z=15&output=embed',
+    directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=28.5396,77.2477'
   },
   faridabad: {
     id: 'faridabad',
@@ -21,16 +22,24 @@ const CLINICS = {
     lat: 28.40478,
     lng: 77.35598,
     address: 'Shop no. 36, First Floor, Amolik Sankalp, Sector 85, Faridabad, Haryana',
-    hours: 'Wed-Mon, 17:00-21:00',
+    hours: 'Wed–Mon, 17:00–21:00',
     closed: 'Tue Closed',
     phone: '+91 8264001306',
     doctors: 'Dr. Sukhwant Yadav & Dr. Sushma Chaurasiya',
-    mapSrc: 'https://www.google.com/maps?q=28.40478,77.35598&z=15&output=embed'
+    mapSrc: 'https://www.google.com/maps?q=28.40478,77.35598&z=15&output=embed',
+    directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=28.40478,77.35598'
   }
 };
 
 const Locations = () => {
   const [activeClinic, setActiveClinic] = useState('delhi');
+
+  const openDirections = (clinicId) => {
+    const clinic = CLINICS[clinicId] || CLINICS[activeClinic] || CLINICS.delhi;
+    if (clinic && clinic.directionsUrl) {
+      window.open(clinic.directionsUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   const updateClinicUI = (clinicId) => {
     try {
@@ -52,9 +61,11 @@ const Locations = () => {
         // Fallback Google Maps iframe
         const mapEl = document.getElementById('leaflet-map');
         if (mapEl) {
-          const iframe = mapEl.querySelector('iframe');
+          let iframe = mapEl.querySelector('iframe');
           if (iframe) {
             iframe.src = clinic.mapSrc;
+          } else {
+            mapEl.innerHTML = '<iframe title="The Dental Home location on Google Maps" src="' + clinic.mapSrc + '" style="border:0; width:100%; height:100%; pointer-events:none;"></iframe>';
           }
         }
       }
@@ -187,7 +198,22 @@ const Locations = () => {
                 <div className="value">Dr. Sukhwant Yadav &amp; Dr. Sushma Chaurasiya</div>
               </div>
             </div>
-            <a href="#book" className="btn btn-primary" style={{ marginTop: '8px', width: 'fit-content' }}>Book appointment</a>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <a href="#book" className="btn btn-primary" style={{ width: 'fit-content' }}>Book appointment</a>
+              <a
+                href={CLINICS.delhi.directionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost"
+                style={{ width: 'fit-content', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                title="Open directions to Delhi Clinic in Google Maps"
+              >
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="3 11 22 2 13 21 11 13 3 11" />
+                </svg>
+                Get directions
+              </a>
+            </div>
           </div>
 
           {/* Faridabad Clinic */}
@@ -238,17 +264,110 @@ const Locations = () => {
                 <div className="value">Dr. Sukhwant Yadav &amp; Dr. Sushma Chaurasiya</div>
               </div>
             </div>
-            <a href="#book" className="btn btn-primary" style={{ marginTop: '8px', width: 'fit-content' }}>Book appointment</a>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <a href="#book" className="btn btn-primary" style={{ width: 'fit-content' }}>Book appointment</a>
+              <a
+                href={CLINICS.faridabad.directionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost"
+                style={{ width: 'fit-content', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                title="Open directions to Faridabad Clinic in Google Maps"
+              >
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="3 11 22 2 13 21 11 13 3 11" />
+                </svg>
+                Get directions
+              </a>
+            </div>
           </div>
 
-          <div className="loc-map">
+          <div
+            className="loc-map"
+            onClick={() => openDirections(activeClinic)}
+            title="Click to get directions in Google Maps"
+            style={{ position: 'relative', cursor: 'pointer', overflow: 'hidden' }}
+          >
             <div id="leaflet-map" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 1 }}>
               <iframe
                 title="The Dental Home location on Google Maps"
                 src={CLINICS[activeClinic]?.mapSrc || CLINICS.delhi.mapSrc}
-                style={{ border: 0, width: '100%', height: '100%' }}
+                style={{ border: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
               />
             </div>
+
+            {/* Clickable overlay to guarantee click response across all browsers */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                zIndex: 2,
+                background: 'transparent'
+              }}
+            />
+
+            {/* Top right prompt badge */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '12px',
+                right: '12px',
+                zIndex: 3,
+                background: 'rgba(26, 26, 26, 0.82)',
+                backdropFilter: 'blur(8px)',
+                color: '#fff',
+                padding: '6px 14px',
+                borderRadius: '20px',
+                fontSize: '11.5px',
+                fontWeight: 500,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+                pointerEvents: 'none'
+              }}
+            >
+              <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: '#2ECC71' }} />
+              <span>Click map for directions</span>
+            </div>
+
+            {/* Floating bottom badge */}
+            <a
+              href={CLINICS[activeClinic]?.directionsUrl || CLINICS.delhi.directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="map-directions-badge"
+              style={{
+                position: 'absolute',
+                bottom: '14px',
+                left: '14px',
+                zIndex: 3,
+                background: 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(8px)',
+                color: 'var(--teal-primary, #0D7C66)',
+                padding: '10px 16px',
+                borderRadius: '100px',
+                boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
+                fontWeight: 600,
+                fontSize: '12.5px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                textDecoration: 'none',
+                border: '1px solid rgba(13, 124, 102, 0.25)',
+                cursor: 'pointer'
+              }}
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="3 11 22 2 13 21 11 13 3 11" />
+              </svg>
+              <span>Get directions to {activeClinic === 'faridabad' ? 'Faridabad Clinic' : 'CR Park Clinic'}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </a>
           </div>
         </div>
       </div>
